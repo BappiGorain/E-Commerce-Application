@@ -43,9 +43,9 @@ public class ProductImpl implements ProductService
     }
 
     @Override
-    public Product updateProduct(Product product)
+    public Product updateProduct(Long productId,Product product)
     {
-        Product existingProduct = productRepo.findById(product.getId()).orElseThrow(()->new ResourceNotFoundException("Resource Not Found"));
+        Product existingProduct = productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("Resource Not Found"));
 
         existingProduct.setName(product.getName());
         existingProduct.setPrice(product.getPrice());
