@@ -1,0 +1,67 @@
+package com.ecommerce.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.exception.ResourceNotFoundException;
+import com.ecommerce.model.Product;
+import com.ecommerce.repository.ProductRepo;
+import com.ecommerce.service.ProductService;
+
+@Service
+public class ProductImpl implements ProductService
+{
+
+    @Autowired
+    private ProductRepo productRepo;
+
+
+    @Override
+    public Product getProductById(Long productId) 
+    {
+        Product product = productRepo.findById(productId).orElseThrow(()-> new ResourceNotFoundException("product Not found with : " + productId));
+         return product;
+    }
+
+    @Override
+    public List<Product> getAllProduct()
+    {
+        List<Product> allProducts = productRepo.findAll();   
+
+        return allProducts;
+    }
+
+    @Override
+    public Product addProduct(Product product)
+    {
+        Product savedProduct = productRepo.save(product);
+
+        return savedProduct;
+
+    }
+
+    @Override
+    public Product updateProduct(Product product)
+    {
+        Product existingProduct = productRepo.findById(product.getId()).orElseThrow(()->new ResourceNotFoundException("Resource Not Found"));
+
+        existingProduct.setName(product.getName());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setBrand(product.getBrand());
+        existingProduct.setManufactureDate(product.getManufactureDate());
+        existingProduct.setExpirationDate(product.getExpirationDate());
+        existingProduct.setUnitLeft(product.getUnitLeft());
+
+        Product savedProduct = productRepo.save(existingProduct);
+
+        return savedProduct;
+    }
+
+    @Override
+    public void deleteProduct(Long productId)
+    {
+        productRepo.deleteById(productId);
+    }   
+}
