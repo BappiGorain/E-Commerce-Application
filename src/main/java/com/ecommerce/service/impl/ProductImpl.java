@@ -21,7 +21,7 @@ public class ProductImpl implements ProductService
     @Override
     public Product getProductById(Long productId) 
     {
-        Product product = productRepo.findById(productId).orElseThrow(()-> new ResourceNotFoundException("product Not found with : " + productId));
+        Product product = productRepo.findById(productId).orElseThrow(()-> new ResourceNotFoundException("product Not found with id : " + productId));
          return product;
     }
 
@@ -62,6 +62,7 @@ public class ProductImpl implements ProductService
     @Override
     public void deleteProduct(Long productId)
     {
-        productRepo.deleteById(productId);
+        Product p =  productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("product Not Found with Id : " + productId));
+        productRepo.delete(p);
     }   
 }

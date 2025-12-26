@@ -51,7 +51,7 @@ public class ProductController
         return ResponseEntity.ok(productService.getAllProduct());
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long productId,@RequestBody Product product)
     {
         logger.info("Product updated with Id : " + productId);
@@ -62,7 +62,7 @@ public class ProductController
     
 
     @DeleteMapping("/delete/{productId}")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id)
+    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable("productId") Long id)
     {
         logger.info("Product deleted successfully with id : " + productService);
 
