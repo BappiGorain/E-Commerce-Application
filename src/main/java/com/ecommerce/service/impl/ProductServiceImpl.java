@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
+import com.ecommerce.model.Category;
 import com.ecommerce.model.Product;
+import com.ecommerce.repository.CategoryRepo;
 import com.ecommerce.repository.ProductRepo;
 import com.ecommerce.service.ProductService;
 
 @Service
-public class ProductImpl implements ProductService
+public class ProductServiceImpl implements ProductService
 {
 
     @Autowired
     private ProductRepo productRepo;
 
+    @Autowired
+    private CategoryRepo categoryRepo;
 
     @Override
     public Product getProductById(Long productId) 
@@ -34,8 +38,10 @@ public class ProductImpl implements ProductService
     }
 
     @Override
-    public Product addProduct(Product product)
+    public Product addProduct(Product product, Long categoryId)
     {
+        Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category Not Found with id :" + categoryId));
+        product.setCategory(category);
         Product savedProduct = productRepo.save(product);
 
         return savedProduct;
@@ -62,7 +68,19 @@ public class ProductImpl implements ProductService
     @Override
     public void deleteProduct(Long productId)
     {
-        Product p =  productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("product Not Found with Id : " + productId));
-        productRepo.delete(p);
-    }   
+        Product product =  productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("product Not Found with Id : " + productId));
+        productRepo.delete(product);
+    }
+
+    @Override
+    public List<Product> getProductByCategoryId(Long categoryId)
+    {
+        Category category = categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category Not Found with id : " + categoryId));
+       
+        List<Product> products = productRepo.findByCategory(category);
+
+        return products;
+    }
+
+     
 }
