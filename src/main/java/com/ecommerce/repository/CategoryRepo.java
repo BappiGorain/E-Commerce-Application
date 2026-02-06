@@ -10,6 +10,5 @@ import com.ecommerce.model.Category;
 public interface CategoryRepo extends JpaRepository<Category,Long>
 {
     // Custom finder method
-
     
 }

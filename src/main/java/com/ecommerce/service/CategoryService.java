@@ -6,11 +6,11 @@ import com.ecommerce.model.Category;
 
 public interface CategoryService
 {
-    public List<Category> getAllCategory();
+    public List<Category> getAllCategories();
 
     public Category getCategoryById(Long id);
 
-    public Category deleteCategoryById(Long id);
+    public void deleteCategoryById(Long id);
 
     public Category addCategory(Category category);
 

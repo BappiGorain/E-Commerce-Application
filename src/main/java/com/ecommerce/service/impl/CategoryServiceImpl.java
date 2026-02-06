@@ -1,29 +1,24 @@
 package com.ecommerce.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Category;
-import com.ecommerce.model.Product;
 import com.ecommerce.repository.CategoryRepo;
-import com.ecommerce.repository.ProductRepo;
 import com.ecommerce.service.CategoryService;
 
+@Service
 public class CategoryServiceImpl implements CategoryService
 {
 
     @Autowired
     private CategoryRepo categoryRepo;
-
-    @Autowired
-    private ProductRepo productRepo;
     
 
     @Override
-    public List<Category> getAllCategory()
+    public List<Category> getAllCategories()
     {
         List<Category> AllCategory = categoryRepo.findAll();
 
@@ -38,10 +33,11 @@ public class CategoryServiceImpl implements CategoryService
     }
 
     @Override
-    public Category deleteCategoryById(Long id)
+    public void deleteCategoryById(Long id)
     {
         Category category = categoryRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Category Not Found with id : " + id));
-        return category;
+        categoryRepo.delete(category);
+        
     }
 
     @Override

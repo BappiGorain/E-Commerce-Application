@@ -71,7 +71,7 @@ public class ProductController
     @DeleteMapping("/delete/{productId}")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable("productId") Long id)
     {
-        logger.info("Product deleted successfully with id : " + productService);
+        logger.info("Product deleted successfully with id : " + id);
 
         productService.deleteProduct(id);
         ApiResponse<Void> response = 
