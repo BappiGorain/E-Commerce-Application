@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<body>
+    
+    <h1>This is only for testing purpose only</h1>
+
+    <h2>My name is <span th:text="${name}">Name</span> </h2>
+
+    <div th:with="a=10,b=20,n=goku">
+        
+        <h1> The value of a is : <span th:text="${a}">a</span></h1>
+        <h2 th:text="'My name is son '+${n}">Goku</h2>
+
+    </div>
+    
+
+    <h1>List of animals: </h1>
+    <h2 th:each="animal,status : ${animalList}">
+        <span th:text="${status.count}">1</span> . <span th:text="${animal}">Animal</span>
+        
+    </h2>
+    
+    
+</body>
+</html>
