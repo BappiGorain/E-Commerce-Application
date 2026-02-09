@@ -6,20 +6,29 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ecommerce.model.Product;
 import com.ecommerce.service.ProductService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
 public class TestController
 {
-
     final private ProductService productService;
 
     TestController(ProductService productService)
     {
         this.productService = productService;
+    }
+
+    @PostMapping("/addCategory")
+    public String addCategory(@RequestParam("categoryName") String categoryName)
+    {
+        System.out.println("categoryName");
+        return "addCategory";
     }
 
 
@@ -53,11 +62,6 @@ public class TestController
 
         model.addAttribute("animalList",animals);
         
-        
-        
-        
-        
         return "test";
     }
-    
 }
