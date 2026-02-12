@@ -24,7 +24,26 @@
         <span th:text="${status.count}">1</span> . <span th:text="${animal}">Animal</span>
         
     </h2>
-    
-    
+
+    <form th:action="@{/test}" method="GET">
+    <div>
+        <input
+                        type="text"
+                        id="categoryName"
+                        name="categoryName"
+                        required
+                        placeholder="write category name"
+                        class="block w-full pl-10 pr-4 py-3 text-sm rounded-lg
+                               bg-neutral-secondary-medium border border-default-medium
+                               text-heading placeholder:text-body
+                               focus:ring-2 focus:ring-brand focus:border-brand transition"
+                    />
+                    <button type="submit"
+                        class="px-4 py-2.5 text-white bg-brand rounded-base">
+                            submit
+                    </button>
+    </div>
+    </form>
+
 </body>
 </html>

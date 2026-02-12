@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.ecommerce.helper.ApiResponse;
 import com.ecommerce.model.Product;
 import com.ecommerce.service.ProductService;
@@ -21,14 +20,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-@RestController
+@Controller
 @RequestMapping("/product")
 public class ProductController
 {
     Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    @Autowired
-    private ProductService productService;
+    final private ProductService productService;
+    ProductController(ProductService productService)
+    {
+        this.productService = productService;
+    }
+
+    @GetMapping("/allProducts")
+    public String allProducts(Model model)
+    {
+        System.out.println("All product");
+
+        List<Product> allProduct = productService.getAllProduct();
+
+        model.addAttribute("products",allProduct);
+
+        return "allproducts";
+    }
+
+    
+
 
 
     @PostMapping("/categories/{categoryId}/products")
@@ -51,12 +68,7 @@ public class ProductController
     }
 
 
-    @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProduct()
-    {
-        logger.info("All product returned");
-        return ResponseEntity.ok(productService.getAllProduct());
-    }
+   
 
     @PutMapping("/update/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long productId,@RequestBody Product product)

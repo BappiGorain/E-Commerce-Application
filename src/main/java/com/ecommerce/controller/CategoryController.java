@@ -1,7 +1,7 @@
 package com.ecommerce.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ecommerce.helper.ApiResponse;
 import com.ecommerce.model.Category;
@@ -11,17 +11,19 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
-@RestController
+@Controller
 @RequestMapping("/category")
 public class CategoryController
 {
@@ -36,16 +38,38 @@ public class CategoryController
         this.categoryService = categoryService;
     }
 
-
-    @GetMapping("/categories")
-    public ResponseEntity<List<Category>> getAllCategies()
+    @GetMapping("/addCategory")
+    public String showAddCategoryPage(Model model) 
     {
+        logger.info("Add new Category");   
+        model.addAttribute("category",new Category());
+        return "addCategory";
+    }
+
+
+    @PostMapping("/addCategory")
+    public String addCategory(@ModelAttribute("category") Category category)
+    {
+        Category addedCategory = categoryService.addCategory(category);
+
+        logger.info("New Category added with id : " + addedCategory.getId() + " and name is : " + addedCategory.getName());
+
+        return "redirect:/category/addCategory";
+    }
+
+    @GetMapping("/allCategories")
+    public String getAllCategies(Model model)
+    {
+
 
         logger.info("All Categories returned");
 
         List<Category> allCategories = categoryService.getAllCategories();
 
-        return ResponseEntity.ok(allCategories);
+        model.addAttribute("categories",allCategories);
+
+
+        return "allcategories";
         
     }
     
@@ -61,28 +85,27 @@ public class CategoryController
         return ResponseEntity.ok(category);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteCateory(@PathVariable Long id)
+    @GetMapping("/deleteCategory")
+    public String showDeleteCategoryPage()
     {
-        logger.info("Category deleted with id " + id);
+        logger.info("Delete Category loadded");
 
+        return "deletecategory";
+    }
+
+    @PostMapping("/delete")
+    public String deleteCateory(@RequestParam Long id)
+    {
+        
         categoryService.deleteCategoryById(id);
 
-        ApiResponse<Void> response = new ApiResponse<>(true, "Category deleted successfully", null);
+        logger.info("Category deleted with id " + id);
 
-        return ResponseEntity.ok(response);
+        return "redirect:/category/allCategories";
     }
 
 
-    @PostMapping("/addCategory")
-    public ResponseEntity<Category> addCategor(@RequestBody Category category)
-    {
-        Category addedCategory = categoryService.addCategory(category);
-
-        logger.info("New Category added with id : " + category.getId());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedCategory);
-    }
+    
 
     @PutMapping("updateCategory/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category)

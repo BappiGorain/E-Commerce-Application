@@ -39,11 +39,11 @@
     <!-- Card -->
     <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-lg border border-default p-8">
 
-        <form method="post" class="space-y-6">
+        <form th:action="@{/category/addCategory}" th:object="${category}" method="post" class="space-y-6">
 
             <!-- Input Group -->
             <div>
-                <label for="categoryName" class="block text-sm font-medium text-heading mb-1">
+                <label  class="block text-sm font-medium text-heading mb-1">
                     Category Name
                 </label>
 
@@ -58,8 +58,7 @@
 
                     <input
                         type="text"
-                        id="categoryName"
-                        name="categoryName"
+                        th:field="*{name}"
                         required
                         placeholder="e.g. Electronics, Clothing, Accessories"
                         class="block w-full pl-10 pr-4 py-3 text-sm rounded-lg
@@ -94,13 +93,20 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M12 4v16m8-8H4"/>
                     </svg>
-
                     Add Category
                 </button>
+                
+                <a href="/category/allCategories"
+            class="inline-block px-4 py-2 rounded-lg bg-indigo-600 text-white
+          hover:bg-indigo-700 transition">
+            All categories
+        </a>
             </div>
+            
 
         </form>
     </div>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
