@@ -10,14 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.ecommerce.helper.ApiResponse;
 import com.ecommerce.model.Product;
+import com.ecommerce.service.CategoryService;
 import com.ecommerce.service.ProductService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -27,10 +32,17 @@ public class ProductController
     Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     final private ProductService productService;
-    ProductController(ProductService productService)
+    final private CategoryService categoryService;
+
+    ProductController(ProductService productService,CategoryService categoryService)
     {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
+
+    
+
+   
 
     @GetMapping("/allProducts")
     public String allProducts(Model model)
@@ -44,20 +56,26 @@ public class ProductController
         return "allproducts";
     }
 
+    @GetMapping("/addProduct")
+    public String showAddProductPage(Model model)
+    {
+        logger.info("Add product page is loaded");
+        model.addAttribute("product",new Product());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "addproduct";
+    }
     
-
-
-
-    @PostMapping("/categories/{categoryId}/products")
-    public ResponseEntity<Product> addProduct(
-            @PathVariable Long categoryId,
-            @RequestBody Product product) {
-
+    @PostMapping("/addProduct")
+    public String addProduct(@ModelAttribute Product product,
+                            @RequestParam Long categoryId) {
+                                
         logger.info("New Product Added");
 
-        Product saved = productService.addProduct(product, categoryId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        productService.addProduct(product, categoryId);
+        return "redirect:/product/allProducts";
     }
+
+
 
 
     @GetMapping("getProduct/{productId}")

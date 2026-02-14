@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+
+    <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+
+    <!-- Tailwind Output -->
+    <link data-th-href="@{'/css/output.css'}" rel="stylesheet">
+</head>
+
+<body class="bg-neutral-secondary-soft">
+
+<!-- Navbar -->
+<div th:replace="navbar :: navbar"></div>
+
+<div class="mt-36 max-w-7xl mx-auto px-4">
+
+    <!-- Header -->
+    <div class="mb-8">
+        <nav class="text-sm text-body mb-2">
+            <span>Dashboard</span>
+            <span class="mx-2">/</span>
+            <span class="text-heading font-medium">Add New Product</span>
+        </nav>
+
+        <h1 class="text-3xl font-bold text-heading">
+            Add New Product
+        </h1>
+        <p class="text-body mt-1">
+            Create and manage product for your store.
+        </p>
+    </div>
+
+    <!-- Card -->
+    <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-lg border border-default p-8">
+
+        <form th:action="@{/product/addProduct}"
+              th:object="${product}"
+              method="post"
+              class="space-y-6">
+
+            <!-- Product Name -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Product Name
+                </label>
+                <input type="text"
+                       th:field="*{name}"
+                       required
+                       placeholder="Enter Product Name"
+                       class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                              focus:ring-2 focus:ring-brand focus:border-brand transition"/>
+            </div>
+
+            <!-- Price -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Price
+                </label>
+                <input type="number"
+                       step="0.01"
+                       th:field="*{price}"
+                       required
+                       placeholder="Enter Product Price"
+                       class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                              focus:ring-2 focus:ring-brand focus:border-brand transition"/>
+            </div>
+
+            <!-- Brand -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Brand
+                </label>
+                <input type="text"
+                       th:field="*{brand}"
+                       required
+                       placeholder="Enter Product Brand"
+                       class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                              focus:ring-2 focus:ring-brand focus:border-brand transition"/>
+            </div>
+
+            <!-- Units -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Units Available
+                </label>
+                <input type="number"
+                       th:field="*{unitLeft}"
+                       required
+                       placeholder="Enter Available Units"
+                       class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                              focus:ring-2 focus:ring-brand focus:border-brand transition"/>
+            </div>
+
+            <!-- Category Dropdown -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Category
+                </label>
+
+                <select name="categoryId"
+                        required
+                        class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                               focus:ring-2 focus:ring-brand focus:border-brand transition">
+
+                    <option value="">Select Category</option>
+
+                    <option th:each="cat : ${categories}"
+                            th:value="${cat.id}"
+                            th:text="${cat.name}">
+                    </option>
+
+                </select>
+            </div>
+
+            <!-- Manufacture Date -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Manufacture Date
+                </label>
+                <input type="date"
+                       th:field="*{manufactureDate}"
+                       required
+                       class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                              focus:ring-2 focus:ring-brand focus:border-brand transition"/>
+            </div>
+
+            <!-- Expiration Date -->
+            <div>
+                <label class="block text-sm font-medium text-heading mb-1">
+                    Expiration Date
+                </label>
+                <input type="date"
+                       th:field="*{expirationDate}"
+                       required
+                       class="block w-full py-3 px-4 rounded-lg border border-default-medium
+                              focus:ring-2 focus:ring-brand focus:border-brand transition"/>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-default">
+
+                <button type="reset"
+                        class="px-5 py-2.5 text-sm rounded-lg border border-default
+                               hover:bg-neutral-secondary-soft transition">
+                    Clear
+                </button>
+
+                <button type="submit"
+                        class="px-6 py-2.5 text-sm rounded-lg bg-brand hover:bg-brand-strong
+                               shadow transition">
+                    Add Product
+                </button>
+
+                <a href="/product/allProducts"
+                   class="px-4 py-2 rounded-lg bg-indigo-600 text-white
+                          hover:bg-indigo-700 transition">
+                    All Products
+                </a>
+
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+</body>
+</html>

@@ -41,8 +41,6 @@ public class Product
 
     private String image = "Default.png";
 
-
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

@@ -43,9 +43,7 @@ public class ProductServiceImpl implements ProductService
         Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category Not Found with id :" + categoryId));
         product.setCategory(category);
         Product savedProduct = productRepo.save(product);
-
         return savedProduct;
-
     }
 
     @Override
