@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+
+    <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
+
+    <!-- Tailwind -->
+    <link data-th-href="@{'/css/output.css'}" rel="stylesheet">
+
+    <style>
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="mt-32 max-w-5xl mx-auto px-6 fade-in">
+
+    <!-- Header -->
+    <div class="mb-10">
+        <h1 class="text-3xl font-bold text-gray-900">
+            Update Product
+        </h1>
+        <p class="text-gray-500 mt-2">
+            Modify the product details below and save changes.
+        </p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+
+        <form th:action="@{/product/updateProduct}"
+              th:object="${product}"
+              method="post"
+              class="space-y-8">
+
+            <!-- Hidden ID -->
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Product Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Product Name
+                    </label>
+                    <input type="text"
+                           th:field="*{name}"
+                           required
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                </div>
+
+                <!-- Brand -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Brand
+                    </label>
+                    <input type="text"
+                           th:field="*{brand}"
+                           required
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Price (₹)
+                    </label>
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{price}"
+                           required
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                </div>
+
+                <!-- Units -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Units Available
+                    </label>
+                    <input type="number"
+                           th:field="*{unitLeft}"
+                           required
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                </div>
+
+                <!-- Category -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Category
+                    </label>
+                    <select name="categoryId"
+                            required
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+
+                        <option value="">Select Category</option>
+
+                        <option th:each="cat : ${categories}"
+                                th:value="${cat.id}"
+                                th:text="${cat.name}"
+                                th:selected="${product.category != null and cat.id == product.category.id}">
+                        </option>
+
+                    </select>
+                </div>
+
+                <!-- Manufacture Date -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Manufacture Date
+                    </label>
+                    <input type="date"
+                           th:field="*{manufactureDate}"
+                           required
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                </div>
+
+                <!-- Expiration Date -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Expiration Date
+                    </label>
+                    <input type="date"
+                           th:field="*{expirationDate}"
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Leave blank for non-perishable products.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 pt-6 flex justify-between items-center">
+
+                <a href="/product/allProducts"
+                   class="px-5 py-2.5 rounded-lg bg-gray-200 text-gray-700
+                          hover:bg-gray-300 transition">
+                    ← Back to Products
+                </a>
+
+                <div class="flex gap-3">
+                    <button type="reset"
+                            class="px-6 py-2.5 rounded-lg border border-gray-300
+                                   hover:bg-gray-100 transition">
+                        Reset
+                    </button>
+
+                    <button type="submit"
+                            class="px-6 py-2.5 rounded-lg bg-blue-600 text-white
+                                   hover:bg-blue-700 shadow-md transition">
+                        Update Product
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+</body>
+</html>

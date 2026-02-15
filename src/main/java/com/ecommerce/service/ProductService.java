@@ -14,8 +14,8 @@ public interface ProductService
 
     public Product addProduct(Product product, Long categoryId);
 
-    public Product updateProduct(Long productId,Product product);
+    public Product updateProduct(Long productId,Product product, Long categoryId);
 
-    public void deleteProduct(Long productId);
+    public void deleteProductById(Long productId);
 
 }

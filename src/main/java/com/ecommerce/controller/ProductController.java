@@ -4,110 +4,121 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.ecommerce.helper.ApiResponse;
 import com.ecommerce.model.Product;
 import com.ecommerce.service.CategoryService;
 import com.ecommerce.service.ProductService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @Controller
 @RequestMapping("/product")
-public class ProductController
-{
-    Logger logger = LoggerFactory.getLogger(ProductController.class);
+public class ProductController {
 
-    final private ProductService productService;
-    final private CategoryService categoryService;
+    private static final Logger logger =
+            LoggerFactory.getLogger(ProductController.class);
 
-    ProductController(ProductService productService,CategoryService categoryService)
-    {
+    private final ProductService productService;
+    private final CategoryService categoryService;
+
+    public ProductController(ProductService productService,
+                             CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;
     }
 
-    
-
-   
+    // ========================= LIST PRODUCTS =========================
 
     @GetMapping("/allProducts")
-    public String allProducts(Model model)
-    {
-        System.out.println("All product");
+    public String showAllProducts(Model model) {
 
-        List<Product> allProduct = productService.getAllProduct();
+        List<Product> products = productService.getAllProduct();
+        model.addAttribute("products", products);
 
-        model.addAttribute("products",allProduct);
+        logger.info("Loaded all products");
 
         return "allproducts";
     }
 
+    // ========================= ADD PRODUCT =========================
+
     @GetMapping("/addProduct")
-    public String showAddProductPage(Model model)
-    {
-        logger.info("Add product page is loaded");
-        model.addAttribute("product",new Product());
-        model.addAttribute("categories", categoryService.getAllCategories());
+    public String showAddProductPage(Model model) {
+
+        model.addAttribute("product", new Product());
+        model.addAttribute("categories",
+                categoryService.getAllCategories());
+
+        logger.info("Add product page loaded");
+
         return "addproduct";
     }
-    
+
     @PostMapping("/addProduct")
     public String addProduct(@ModelAttribute Product product,
-                            @RequestParam Long categoryId) {
-                                
-        logger.info("New Product Added");
+                             @RequestParam Long categoryId) {
 
         productService.addProduct(product, categoryId);
+
+        logger.info("Product added successfully");
+
         return "redirect:/product/allProducts";
     }
 
+    // ========================= UPDATE PRODUCT =========================
 
+    @GetMapping("/updateProduct/{id}")
+    public String showUpdateProductPage(@PathVariable Long id,
+                                        Model model) {
 
+        Product product = productService.getProductById(id);
 
-    @GetMapping("getProduct/{productId}")
-    public ResponseEntity<Product> getProductById(@PathVariable("productId") Long productId)
-    {
-        logger.info("product returned by productId : " + productId);
-        return ResponseEntity.ok(productService.getProductById(productId));
+        model.addAttribute("product", product);
+        model.addAttribute("categories",
+                categoryService.getAllCategories());
+
+        logger.info("Update page opened for product id: {}", id);
+
+        return "updateproduct";
     }
 
+    @PostMapping("/updateProduct")
+    public String updateProduct(@ModelAttribute Product product,
+                                @RequestParam Long categoryId) {
 
-   
+        productService.updateProduct(product.getId(),
+                                     product,
+                                     categoryId);
 
-    @PutMapping("/update/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long productId,@RequestBody Product product)
-    {
-        logger.info("Product updated with Id : " + productId);
+        logger.info("Product updated successfully, id: {}",
+                product.getId());
 
-        Product updatedProduct = productService.updateProduct(productId,product);
-        return ResponseEntity.ok(updatedProduct);
+        return "redirect:/product/allProducts";
     }
-    
 
-    @DeleteMapping("/delete/{productId}")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable("productId") Long id)
-    {
-        logger.info("Product deleted successfully with id : " + id);
+    // ========================= DELETE PRODUCT =========================
 
-        productService.deleteProduct(id);
-        ApiResponse<Void> response = 
-                new ApiResponse<>(true, "Product deleted successfully", null);
+    @GetMapping("/deleteProduct/{id}")
+    public String showDeleteProductPage(@PathVariable Long id,
+                                        Model model) {
 
-        return ResponseEntity.ok(response);
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+
+        logger.info("Delete confirmation page opened for product id: {}", id);
+
+        return "deleteproduct";
     }
+
+   @PostMapping("/deleteProduct/{id}")
+public String deleteProduct(@PathVariable Long id) {
+
+    productService.deleteProductById(id);
+
+    logger.info("Product deleted successfully, id: {}", id);
+
+    return "redirect:/product/allProducts";
+}
 
 }

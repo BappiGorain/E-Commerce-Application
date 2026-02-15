@@ -13,8 +13,7 @@ import com.ecommerce.repository.ProductRepo;
 import com.ecommerce.service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService
-{
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepo productRepo;
@@ -23,33 +22,33 @@ public class ProductServiceImpl implements ProductService
     private CategoryRepo categoryRepo;
 
     @Override
-    public Product getProductById(Long productId) 
-    {
-        Product product = productRepo.findById(productId).orElseThrow(()-> new ResourceNotFoundException("product Not found with id : " + productId));
-         return product;
+    public Product getProductById(Long productId) {
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("product Not found with id : " + productId));
+        return product;
     }
 
     @Override
-    public List<Product> getAllProduct()
-    {
-        List<Product> allProducts = productRepo.findAll();   
+    public List<Product> getAllProduct() {
+        List<Product> allProducts = productRepo.findAll();
 
         return allProducts;
     }
 
     @Override
-    public Product addProduct(Product product, Long categoryId)
-    {
-        Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category Not Found with id :" + categoryId));
+    public Product addProduct(Product product, Long categoryId) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category Not Found with id :" + categoryId));
         product.setCategory(category);
         Product savedProduct = productRepo.save(product);
         return savedProduct;
     }
 
     @Override
-    public Product updateProduct(Long productId,Product product)
-    {
-        Product existingProduct = productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("Resource Not Found"));
+    public Product updateProduct(Long productId, Product product, Long categoryId) {
+
+        Product existingProduct = productRepo.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         existingProduct.setName(product.getName());
         existingProduct.setPrice(product.getPrice());
@@ -58,27 +57,29 @@ public class ProductServiceImpl implements ProductService
         existingProduct.setExpirationDate(product.getExpirationDate());
         existingProduct.setUnitLeft(product.getUnitLeft());
 
-        Product savedProduct = productRepo.save(existingProduct);
+        if (!existingProduct.getCategory().getId().equals(categoryId)) {
+            Category category = categoryRepo.findById(categoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+            existingProduct.setCategory(category);
+        }
 
-        return savedProduct;
+        return productRepo.save(existingProduct);
     }
 
     @Override
-    public void deleteProduct(Long productId)
-    {
-        Product product =  productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("product Not Found with Id : " + productId));
-        productRepo.delete(product);
+    public void deleteProductById(Long id) {
+    productRepo.deleteById(id);
     }
 
+
     @Override
-    public List<Product> getProductByCategoryId(Long categoryId)
-    {
-        Category category = categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category Not Found with id : " + categoryId));
-       
+    public List<Product> getProductByCategoryId(Long categoryId) {
+        Category category = categoryRepo.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category Not Found with id : " + categoryId));
+
         List<Product> products = productRepo.findByCategory(category);
 
         return products;
     }
 
-     
 }

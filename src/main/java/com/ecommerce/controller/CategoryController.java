@@ -1,16 +1,11 @@
 package com.ecommerce.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.ecommerce.model.Category;
 import com.ecommerce.service.CategoryService;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,83 +16,67 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/category")
-public class CategoryController
-{
+public class CategoryController {
 
     Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-    // Constructor Injection
     private final CategoryService categoryService;
 
-    CategoryController(CategoryService categoryService)
-    {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
+    // ================= ADD =================
+
     @GetMapping("/addCategory")
-    public String showAddCategoryPage(Model model) 
-    {
-        logger.info("Add new Category");   
-        model.addAttribute("category",new Category());
+    public String showAddCategoryPage(Model model) {
+        model.addAttribute("category", new Category());
         return "addCategory";
     }
 
-
     @PostMapping("/addCategory")
-    public String addCategory(@ModelAttribute("category") Category category)
-    {
-        Category addedCategory = categoryService.addCategory(category);
-        logger.info("New Category added with id : " + addedCategory.getId() + " and name is : " + addedCategory.getName());
-        return "redirect:/category/addCategory";
+    public String addCategory(@ModelAttribute Category category) {
+        categoryService.addCategory(category);
+        return "redirect:/category/allCategories";
     }
+
+    // ================= LIST =================
 
     @GetMapping("/allCategories")
-    public String getAllCategies(Model model)
-    {
-        logger.info("All Categories returned");
-        List<Category> allCategories = categoryService.getAllCategories();
-        model.addAttribute("categories",allCategories);
+    public String getAllCategories(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "allcategories";
     }
-    
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id)
-    {
-        logger.info("Category fetched with id : " + id);
-        Category category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(category);
-    }
+    // ================= UPDATE =================
 
-    @GetMapping("/deleteCategory")
-    public String showDeleteCategoryPage()
-    {
-        logger.info("Delete Category loadded");
-        return "deletecategory";
-    }
-
-    @PostMapping("/delete")
-    public String deleteCateory(@RequestParam Long id)
-    {
-        categoryService.deleteCategoryById(id);
-        logger.info("Category deleted with id " + id);
-        return "redirect:/category/allCategories";
-    }
-
-    @GetMapping("/updateCategory")
-    public String showUpdateCategoryPag(Model model) 
-    {
-        logger.info("update category page is loading");
-        model.addAttribute("category",new Category());
+    @GetMapping("/updateCategory/{id}")
+    public String showUpdateCategoryPage(@PathVariable Long id, Model model) {
+        model.addAttribute("category", categoryService.getCategoryById(id));
         return "updatecategory";
     }
-    
 
     @PostMapping("/updateCategory")
-    public String updateCategory(@ModelAttribute Category category)
-    {
-        Category updatedCategory = categoryService.updateCategory(category.getId(), category);
-        logger.info("Category updated to " + updatedCategory.getName());
+    public String updateCategory(@ModelAttribute Category category) {
+        categoryService.updateCategory(category.getId(), category);
         return "redirect:/category/allCategories";
     }
+
+   // ================= DELETE =================
+
+// STEP 1: Show confirmation page
+@GetMapping("/deleteCategory/{id}")
+public String showDeleteConfirmation(@PathVariable Long id, Model model) {
+    model.addAttribute("category", categoryService.getCategoryById(id));
+    return "deletecategory";
+}
+
+// STEP 2: Perform delete AFTER confirmation
+@PostMapping("/deleteCategory/{id}")
+public String deleteCategory(@PathVariable Long id) {
+    categoryService.deleteCategoryById(id);
+    return "redirect:/category/allCategories";
+}
+
+    
 }
