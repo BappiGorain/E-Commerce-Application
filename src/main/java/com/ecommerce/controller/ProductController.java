@@ -38,7 +38,7 @@ public class ProductController {
 
         logger.info("Loaded all products");
 
-        return "allproducts";
+        return "admin/allproducts";
     }
 
     // ========================= ADD PRODUCT =========================
@@ -52,7 +52,7 @@ public class ProductController {
 
         logger.info("Add product page loaded");
 
-        return "addproduct";
+        return "admin/addproduct";
     }
 
     @PostMapping("/addProduct")
@@ -80,7 +80,7 @@ public class ProductController {
 
         logger.info("Update page opened for product id: {}", id);
 
-        return "updateproduct";
+        return "admin/updateproduct";
     }
 
     @PostMapping("/updateProduct")
@@ -108,7 +108,7 @@ public class ProductController {
 
         logger.info("Delete confirmation page opened for product id: {}", id);
 
-        return "deleteproduct";
+        return "admin/deleteproduct";
     }
 
    @PostMapping("/deleteProduct/{id}")

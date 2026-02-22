@@ -29,14 +29,17 @@ public class CategoryController {
     // ================= ADD =================
 
     @GetMapping("/addCategory")
-    public String showAddCategoryPage(Model model) {
+    public String showAddCategoryPage(Model model)
+    {
         model.addAttribute("category", new Category());
-        return "addCategory";
+        logger.info("category add page loading");
+        return "admin/addCategory";
     }
 
     @PostMapping("/addCategory")
     public String addCategory(@ModelAttribute Category category) {
         categoryService.addCategory(category);
+        logger.info("new category added ");
         return "redirect:/category/allCategories";
     }
 
@@ -45,7 +48,7 @@ public class CategoryController {
     @GetMapping("/allCategories")
     public String getAllCategories(Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "allcategories";
+        return "admin/allcategories";
     }
 
     // ================= UPDATE =================
@@ -53,7 +56,7 @@ public class CategoryController {
     @GetMapping("/updateCategory/{id}")
     public String showUpdateCategoryPage(@PathVariable Long id, Model model) {
         model.addAttribute("category", categoryService.getCategoryById(id));
-        return "updatecategory";
+        return "admin/updatecategory";
     }
 
     @PostMapping("/updateCategory")
@@ -68,7 +71,7 @@ public class CategoryController {
 @GetMapping("/deleteCategory/{id}")
 public String showDeleteConfirmation(@PathVariable Long id, Model model) {
     model.addAttribute("category", categoryService.getCategoryById(id));
-    return "deletecategory";
+    return "admin/deletecategory";
 }
 
 // STEP 2: Perform delete AFTER confirmation
