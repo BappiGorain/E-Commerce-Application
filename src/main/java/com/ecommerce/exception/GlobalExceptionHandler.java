@@ -1,11 +1,14 @@
 package com.ecommerce.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.ecommerce.helper.ApiResponse;
+import com.ecommerce.model.Category;
 
 @ControllerAdvice
 public class GlobalExceptionHandler
@@ -21,23 +24,14 @@ public class GlobalExceptionHandler
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    // Validation Errors Handler
 
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleValidationErrors(MethodArgumentNotValidException ex)
-    {
-        String errorMessage = ex.getBindingResult()
-        .getAllErrors()
-        .stream()
-        .findFirst()
-        .map(error -> error.getDefaultMessage())
-        .orElse("Validation failed");
-
-        ApiResponse<Void> response = new ApiResponse<Void>(false, errorMessage, null);
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String handleDuplicateCategory(Model model) {
+        model.addAttribute("errorMessage", "Category already exists!");
+        model.addAttribute("category", new Category());
+        return "admin/addCategory";
     }
+   
 
 
     // Handles All Other Errors
@@ -49,5 +43,8 @@ public class GlobalExceptionHandler
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+
+   
+    
       
 }

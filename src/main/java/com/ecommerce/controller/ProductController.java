@@ -12,6 +12,8 @@ import com.ecommerce.model.Product;
 import com.ecommerce.service.CategoryService;
 import com.ecommerce.service.ProductService;
 
+import jakarta.validation.Valid;
+
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -56,8 +58,13 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public String addProduct(@ModelAttribute Product product,
-                             @RequestParam Long categoryId) {
+    public String addProduct(@Valid, @ModelAttribute Product product,
+                             @RequestParam Long categoryId,BindingResult result) {
+
+            if(result.hasErrors())
+            {
+                return "admin/addproduct";
+            }
 
         productService.addProduct(product, categoryId);
 

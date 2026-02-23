@@ -68,11 +68,11 @@
 
                     <input type="text"
                            th:field="*{name}"
-                           required
                            placeholder="e.g. Electronics, Clothing"
                            class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300
                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                   transition duration-200"/>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
                 </div>
 
                 <p class="text-xs text-gray-400 mt-2">

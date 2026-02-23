@@ -4,10 +4,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ecommerce.model.Category;
 import com.ecommerce.service.CategoryService;
 
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +32,7 @@ public class CategoryController {
     // ================= ADD =================
 
     @GetMapping("/addCategory")
-    public String showAddCategoryPage(Model model)
+    public String showAddCategoryPage( Model model)
     {
         model.addAttribute("category", new Category());
         logger.info("category add page loading");
@@ -37,7 +40,13 @@ public class CategoryController {
     }
 
     @PostMapping("/addCategory")
-    public String addCategory(@ModelAttribute Category category) {
+    public String addCategory(@Valid @ModelAttribute Category category,BindingResult result) {
+
+        if(result.hasErrors())
+        {
+            return "admin/addCategory";
+        }
+        
         categoryService.addCategory(category);
         logger.info("new category added ");
         return "redirect:/category/allCategories";
@@ -60,7 +69,11 @@ public class CategoryController {
     }
 
     @PostMapping("/updateCategory")
-    public String updateCategory(@ModelAttribute Category category) {
+    public String updateCategory(@Valid @ModelAttribute Category category,BindingResult result ) {
+        if(result.hasErrors())
+        {
+            return "admin/addCategory";
+        }
         categoryService.updateCategory(category.getId(), category);
         return "redirect:/category/allCategories";
     }

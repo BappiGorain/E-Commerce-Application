@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,8 @@ public class Category
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Category is mandatory")
+    @Size(min=1,max=50,message="must be between 1 to 50 characters")
     @Column(nullable = false,unique = true)
     private String name;
 
