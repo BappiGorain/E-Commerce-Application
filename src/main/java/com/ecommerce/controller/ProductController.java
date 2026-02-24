@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.model.Product;
@@ -58,11 +59,12 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public String addProduct(@Valid, @ModelAttribute Product product,
-                             @RequestParam Long categoryId,BindingResult result) {
+    public String addProduct(@Valid @ModelAttribute Product product,
+                             BindingResult result,@RequestParam Long categoryId,Model model) {
 
             if(result.hasErrors())
             {
+                model.addAttribute("categories",categoryService.getAllCategories());
                 return "admin/addproduct";
             }
 
@@ -91,8 +93,16 @@ public class ProductController {
     }
 
     @PostMapping("/updateProduct")
-    public String updateProduct(@ModelAttribute Product product,
-                                @RequestParam Long categoryId) {
+    public String updateProduct(@Valid @ModelAttribute Product product,
+                                BindingResult result,
+                                @RequestParam Long categoryId,Model model) {
+
+                if(result.hasErrors())
+                {
+                    model.addAttribute("categories",categoryService.getAllCategories());
+
+                    return "admin/updateproduct";
+                }
 
         productService.updateProduct(product.getId(),
                                      product,

@@ -59,9 +59,9 @@
                     </label>
                     <input type="text"
                            th:field="*{name}"
-                           required
                            class="w-full px-4 py-3 rounded-lg border border-gray-300
                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
                 </div>
 
                 <!-- Brand -->
@@ -84,9 +84,9 @@
                     <input type="number"
                            step="0.01"
                            th:field="*{price}"
-                           required
                            class="w-full px-4 py-3 rounded-lg border border-gray-300
                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red;"></span>
                 </div>
 
                 <!-- Units -->
@@ -99,6 +99,7 @@
                            required
                            class="w-full px-4 py-3 rounded-lg border border-gray-300
                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                    <span th:if="${#fields.hasErrors('unitLeft')}" th:errors="*{unitLeft}" style="color: red;"></span>
                 </div>
 
                 <!-- Category -->
@@ -132,6 +133,7 @@
                            required
                            class="w-full px-4 py-3 rounded-lg border border-gray-300
                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+                    <span th:if="${#fields.hasErrors('manufactureDate')}" th:errors="*{manufactureDate}" style="color: red;"></span>
                 </div>
 
                 <!-- Expiration Date -->
