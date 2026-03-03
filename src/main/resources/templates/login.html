@@ -1,21 +1,100 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | YourApp</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-400 min-h-screen flex items-center justify-center">
 
-<h2>Login</h2>
+    <div class="w-full max-w-md px-6">
+        
+        <!-- Card -->
+        <div class="bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/30">
 
-<form th:action="@{/doLogin}" method="post">
+            <!-- Logo / Title -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-white">Welcome Back</h2>
+                <p class="text-white/80 text-sm mt-2">Login to your account</p>
+            </div>
 
-    <input type="text" name="email" placeholder="Email" required/>
+            <!-- Form -->
+            <form th:action="@{/doLogin}" method="post" class="space-y-6">
 
-    <input type="password" name="password" placeholder="Password" required/>
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm text-white mb-2">Email</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required
+                        class="w-full px-4 py-3 rounded-xl bg-white/30 text-white placeholder-white/70 
+                               focus:outline-none focus:ring-2 focus:ring-white 
+                               transition duration-300"
+                    />
+                </div>
 
-    <button type="submit">Login</button>
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm text-white mb-2">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        placeholder="Enter your password"
+                        required
+                        class="w-full px-4 py-3 rounded-xl bg-white/30 text-white placeholder-white/70 
+                               focus:outline-none focus:ring-2 focus:ring-white 
+                               transition duration-300"
+                    />
+                </div>
 
-</form>
+                <!-- Remember + Forgot -->
+                <div class="flex items-center justify-between text-sm text-white">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="rounded">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="hover:underline">Forgot password?</a>
+                </div>
+
+                <!-- Button -->
+                <button 
+                    type="submit"
+                    class="w-full bg-white text-purple-700 font-semibold py-3 rounded-xl 
+                           hover:bg-purple-100 transition duration-300 shadow-lg"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+            <!-- Divider -->
+            <div class="my-6 border-t border-white/30"></div>
+
+            <!-- Register -->
+            <p class="text-center text-sm text-white">
+                Don’t have an account?
+                <a th:href="@{/register}" class="font-semibold hover:underline">Create one</a>
+            </p>
+
+        </div>
+
+        <!-- Footer -->
+        <p class="text-center text-white/80 text-xs mt-6">
+            © 2026 YourApp. All rights reserved.
+        </p>
+
+    </div>
 
 </body>
 </html>
