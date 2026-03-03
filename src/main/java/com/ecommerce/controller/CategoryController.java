@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/admin/category")
 public class CategoryController {
 
     Logger logger = LoggerFactory.getLogger(CategoryController.class);
@@ -40,7 +40,8 @@ public class CategoryController {
     }
 
     @PostMapping("/addCategory")
-    public String addCategory(@Valid @ModelAttribute Category category,BindingResult result) {
+    public String addCategory(@Valid @ModelAttribute Category category,BindingResult result)
+    {
 
         if(result.hasErrors())
         {
@@ -49,7 +50,7 @@ public class CategoryController {
         
         categoryService.addCategory(category);
         logger.info("new category added ");
-        return "redirect:/category/allCategories";
+        return "redirect:/admin/category/allCategories";
     }
 
     // ================= LIST =================

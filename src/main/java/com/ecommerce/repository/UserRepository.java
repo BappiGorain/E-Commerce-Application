@@ -1,12 +1,12 @@
-// package com.ecommerce.repository;
+package com.ecommerce.repository;
 
-// import java.util.Optional;
+import java.util.Optional;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// import com.ecommerce.model.User;
+import com.ecommerce.model.User;
 
-// public interface UserRepository extends JpaRepository<Long,User>
-// {
-//     Optional<User> findByEmail(String email);
-// }
+public interface UserRepository extends JpaRepository<User,Long>
+{
+    Optional<User> findByEmail(String email);
+}

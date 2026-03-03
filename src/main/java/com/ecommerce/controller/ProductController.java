@@ -16,7 +16,7 @@ import com.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/admin/product")
 public class ProductController {
 
     private static final Logger logger =
@@ -72,7 +72,7 @@ public class ProductController {
 
         logger.info("Product added successfully");
 
-        return "redirect:/product/allProducts";
+        return "redirect:/admin/product/allProducts";
     }
 
     // ========================= UPDATE PRODUCT =========================
