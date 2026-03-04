@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>User Profile</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+    </head>
+
+    <body
+        class="bg-linear-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
+
+        <!-- Navbar -->
+        <header class="bg-white/70 backdrop-blur-md shadow-sm border-b">
+            <div
+                class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+                <h1 class="text-xl font-semibold text-gray-800">
+                    E-Commerce
+                </h1>
+
+                <div class="flex items-center gap-4">
+
+                    <span class="text-gray-600">
+                        Welcome
+                        <span class="font-semibold text-indigo-600"
+                            th:text="${user.name}"></span>
+                    </span>
+
+
+                    <!-- Logout Button -->
+                    <form th:action="@{/logout}" method="post">
+                        <input type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}" />
+
+                        <button type="submit"
+                            class="w-full text-left px-4 py-2 text-red-600
+                            hover:bg-red-50 transition">
+                            Logout
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        </header>
+
+        <!-- Page Container -->
+        <div class="max-w-7xl mx-auto px-6 py-12">
+
+            <div class="grid grid-cols-12 gap-8">
+
+                <!-- Profile Card -->
+                <div class="col-span-12 md:col-span-4">
+
+                    <div
+                        class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border p-8 text-center">
+
+                        <img
+                            src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff&size=128"
+                            class="w-28 h-28 rounded-full mx-auto mb-5 shadow-md">
+
+                        <h2 class="text-2xl font-bold text-gray-800"
+                            th:text="${user.name}">
+                        </h2>
+
+                        <p class="text-gray-500 mt-1"
+                            th:text="${user.email}">
+                        </p>
+
+                        <div class="mt-4">
+                            <span
+                                class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium"
+                                th:text="${user.role}">
+                            </span>
+                        </div>
+
+                        <button
+                            class="mt-6 w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+                            Edit Profile
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- Details Section -->
+                <div class="col-span-12 md:col-span-8 space-y-8">
+
+                    <!-- Account Info -->
+                    <div class="bg-white rounded-2xl shadow-lg border p-8">
+
+                        <h2 class="text-lg font-semibold text-gray-800 mb-6">
+                            Account Information
+                        </h2>
+
+                        <div class="grid grid-cols-2 gap-6">
+
+                            <div>
+                                <p class="text-sm text-gray-500">Full Name</p>
+                                <p class="font-semibold text-gray-800"
+                                    th:text="${user.name}">
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-gray-500">Email</p>
+                                <p class="font-semibold text-gray-800"
+                                    th:text="${user.email}">
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-gray-500">Role</p>
+                                <p class="font-semibold text-gray-800"
+                                    th:text="${user.role}">
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-gray-500">Joined Date</p>
+                                <!-- <p class="font-semibold text-gray-800"
+th:text="${user.createdDate}">
+</p> -->
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                        <!-- Orders -->
+                        <div
+                            class="bg-linear-to-r from-indigo-500 to-indigo-600 text-white p-6 rounded-2xl shadow-lg">
+
+                            <p class="text-sm opacity-80">
+                                Total Orders
+                            </p>
+
+                            <!-- <p class="text-3xl font-bold mt-2"
+th:text="${orderCount}">
+</p> -->
+
+                        </div>
+
+                        <!-- Products Ordered -->
+                        <div
+                            class="bg-linear-to-r from-purple-500 to-purple-600 text-white p-6 rounded-2xl shadow-lg">
+
+                            <p class="text-sm opacity-80">
+                                Products Ordered
+                            </p>
+
+                            <!-- <p class="text-3xl font-bold mt-2"
+th:text="${productCount}">
+</p> -->
+
+                        </div>
+
+                        <!-- All Products -->
+                        <div
+                            class="bg-linear-to-r from-pink-500 to-rose-500 text-white p-6 rounded-2xl shadow-lg">
+
+                            <p class="text-sm opacity-80">
+                                Available Products
+                            </p>
+
+                            <!-- <p class="text-3xl font-bold mt-2"
+th:text="${totalProducts}">
+</p> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+</html>

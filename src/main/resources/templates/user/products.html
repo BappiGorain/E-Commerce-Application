@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Product Dashboard</title>
+
+        <!-- Flowbite -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css"
+            rel="stylesheet" />
+
+        <!-- Tailwind -->
+        <link data-th-href="@{'/css/output.css'}" rel="stylesheet">
+
+        <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+    </style>
+    </head>
+
+    <body
+        class="bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 text-gray-800">
+
+        <div th:replace="navbar :: navbar"></div>
+
+        <div class="mt-28 max-w-7xl mx-auto px-4 sm:px-6 fade-in">
+
+            <!-- Header -->
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+                <div>
+                    <h1
+                        class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600">
+                        Product Dashboard
+                    </h1>
+                    <p class="text-gray-600 mt-1 text-sm sm:text-base">
+                        Manage inventory efficiently
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- ===================== -->
+            <!-- DESKTOP TABLE (md+) -->
+            <!-- ===================== -->
+            <div
+                class="hidden md:block bg-white/70 backdrop-blur-xl shadow-2xl rounded-2xl border border-white/40 overflow-hidden">
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+
+                        <thead
+                            class="bg-linear-to-r from-indigo-600 to-purple-600 text-white text-xs uppercase">
+                            <tr>
+                                <th class="px-6 py-4">Product</th>
+                                <th class="px-6 py-4">Price</th>
+                                <th class="px-6 py-4">Brand</th>
+                                <th class="px-6 py-4">Stock</th>
+                                <th class="px-6 py-4">Manufacture</th>
+                                <th class="px-6 py-4">Expiry</th>
+                                <th class="px-6 py-4 text-center">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-gray-200">
+                            <tr th:each="product : ${products}"
+                                class="hover:bg-white transition">
+
+                                <td
+                                    class="px-6 py-4 font-semibold text-gray-900"
+                                    th:text="${product.name}"></td>
+
+                                <td class="px-6 py-4 font-bold text-green-600">
+                                    ₹ <span th:text="${product.price}"></span>
+                                </td>
+
+                                <td class="px-6 py-4"
+                                    th:text="${product.brand}"></td>
+
+                                <td class="px-6 py-4">
+                                    <span th:if="${product.unitLeft > 10}"
+                                        class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
+                                        <span
+                                            th:text="${product.unitLeft}"></span>
+                                        Available
+                                    </span>
+                                    <span th:if="${product.unitLeft <= 10}"
+                                        class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full">
+                                        <span
+                                            th:text="${product.unitLeft}"></span>
+                                        Low
+                                    </span>
+                                </td>
+
+                                <td class="px-6 py-4"
+                                    th:text="${product.manufactureDate}"></td>
+
+                                <td class="px-6 py-4">
+                                    <span
+                                        th:if="${product.expirationDate != null}"
+                                        th:text="${product.expirationDate}"></span>
+                                    <span
+                                        th:if="${product.expirationDate == null}"
+                                        class="italic text-gray-400">No
+                                        Expiry</span>
+                                </td>
+
+                                <td class="px-6 py-4 text-center space-x-2">
+                                    
+
+                                    <!-- Add To cart -->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===================== -->
+            <!-- MOBILE CARDS (< md) -->
+            <!-- ===================== -->
+            <div class="grid gap-4 md:hidden">
+                <div th:each="product : ${products}"
+                    class="bg-white rounded-xl shadow-lg p-4 border border-gray-200">
+
+                    <div class="flex justify-between items-start mb-2">
+                        <h2 class="font-bold text-lg text-indigo-600"
+                            th:text="${product.name}"></h2>
+                        <span class="font-bold text-green-600">
+                            ₹ <span th:text="${product.price}"></span>
+                        </span>
+                    </div>
+
+                    <p class="text-sm text-gray-600">
+                        Brand: <span th:text="${product.brand}"></span>
+                    </p>
+
+                    <div class="mt-2">
+                        <span th:if="${product.unitLeft > 10}"
+                            class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
+                            <span th:text="${product.unitLeft}"></span>
+                            Available
+                        </span>
+                        <span th:if="${product.unitLeft <= 10}"
+                            class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full">
+                            <span th:text="${product.unitLeft}"></span> Low
+                            Stock
+                        </span>
+                    </div>
+
+                    <div class="mt-2 text-sm text-gray-600">
+                        MFG: <span th:text="${product.manufactureDate}"></span>
+                    </div>
+
+                    <div class="text-sm text-gray-600">
+                        Expiry:
+                        <span th:if="${product.expirationDate != null}"
+                            th:text="${product.expirationDate}"></span>
+                        <span th:if="${product.expirationDate == null}"
+                            class="italic">No Expiry</span>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    </body>
+</html>
