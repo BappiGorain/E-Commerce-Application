@@ -1,178 +1,304 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
 
-        <title>Your Cart</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script src="https://cdn.tailwindcss.com"></script>
+<title>Your Cart | ShopSmart</title>
 
-    </head>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <body
-        class="bg-linear-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        <!-- Navbar -->
-        <div th:replace="~{navbar :: navbar}"></div>
+<style>
 
-        <div class="max-w-7xl mx-auto px-6 mt-28 mb-16">
+body{
+font-family:'Inter',sans-serif;
+}
 
-            <h1 class="text-3xl font-bold text-gray-800 mb-8">
-                Your Shopping Cart
-            </h1>
+/* Fade animation */
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
 
-                <!-- ================= CART ITEMS ================= -->
-                <div
-                    class="lg:col-span-2 bg-white rounded-2xl shadow-lg border">
+.fade-up{
+animation:fadeUp .6s ease forwards;
+}
 
-                    <div class="p-6 border-b">
-                        <h2 class="text-lg font-semibold text-gray-700">
-                            Cart Items
-                        </h2>
-                    </div>
+/* Card hover */
 
-                    <table class="w-full text-left">
+.card-hover{
+transition:all .25s ease;
+}
 
-                        <thead class="bg-gray-50 text-gray-600 text-sm">
-                            <tr>
-                                <th class="p-4">Product</th>
-                                <th class="p-4">Price</th>
-                                <th class="p-4">Qty</th>
-                                <th class="p-4">Total</th>
-                                <th class="p-4">Remove</th>
-                            </tr>
-                        </thead>
+.card-hover:hover{
+transform:translateY(-4px);
+box-shadow:0 20px 40px rgba(0,0,0,.08);
+}
 
-                        <tbody>
+</style>
 
-                            <tr class="border-t hover:bg-gray-50 transition"
-                                th:each="item : ${cartItems}">
+</head>
 
-                                <td class="p-4 flex items-center gap-4">
 
-                                    <!-- <img th:src="${item.product.imageUrl}"
-     class="w-16 h-16 rounded-lg object-cover"> -->
+<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300">
 
-                                    <div>
-                                        <p class="font-semibold text-gray-800"
-                                            th:text="${item.product.name}">
-                                        </p>
+<!-- NAVBAR -->
+<div th:replace="~{navbar :: navbar}"></div>
 
-                                        <p class="text-sm text-gray-500">
-                                            Category
-                                        </p>
-                                    </div>
 
-                                </td>
 
-                                <td class="p-4 text-gray-700 font-medium"
-                                    th:text="'₹ ' + ${item.product.price}">
-                                </td>
+<div class="max-w-7xl mx-auto px-6 pt-28 pb-16 fade-up">
 
-                                <td class="p-4">
+<h1 class="text-3xl md:text-4xl font-bold mb-10
+bg-gradient-to-r from-indigo-600 to-purple-600
+text-transparent bg-clip-text">
 
-                                    <div
-                                        class="flex items-center border rounded-lg w-fit">
+Your Shopping Cart
 
-                                        <button
-                                            class="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                                            -
-                                        </button>
+</h1>
 
-                                        <span class="px-4 py-1"
-                                            th:text="${item.quantity}">
-                                        </span>
 
-                                        <button
-                                            class="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                                            +
-                                        </button>
 
-                                    </div>
+<div class="grid lg:grid-cols-3 gap-8">
 
-                                </td>
 
-                                <td class="p-4 font-semibold text-indigo-600"
-                                    th:text="'₹ ' + ${item.totalPrice}">
-                                </td>
+<!-- CART ITEMS -->
 
-                                <td class="p-4">
+<div class="lg:col-span-2
+bg-white dark:bg-slate-900
+rounded-2xl
+border border-gray-200 dark:border-slate-800
+shadow-xl
+overflow-hidden">
 
-                                    <a th:href="@{/cart/remove/{id}(id=${item.id})}"
-   class="text-red-500 hover:text-red-600 text-sm">
-   Remove
+
+<div class="p-6 border-b border-gray-200 dark:border-slate-800">
+
+<h2 class="text-lg font-semibold">
+
+Cart Items
+
+</h2>
+
+</div>
+
+
+
+<div class="divide-y divide-gray-200 dark:divide-slate-800">
+
+
+<div th:each="item : ${cartItems}"
+
+class="p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 card-hover">
+
+
+<!-- PRODUCT INFO -->
+
+<div class="flex items-center gap-4">
+
+<!-- Product image placeholder -->
+<div class="w-16 h-16 bg-gray-200 dark:bg-slate-800 rounded-lg"></div>
+
+<div>
+
+<p class="font-semibold text-lg"
+th:text="${item.product.name}">
+</p>
+
+<p class="text-sm text-gray-500">
+
+Brand:
+<span th:text="${item.product.brand}"></span>
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- PRICE -->
+
+<div class="text-sm">
+
+<p class="text-gray-500">Price</p>
+
+<p class="font-semibold text-gray-800 dark:text-gray-200"
+th:text="'₹ ' + ${item.product.price}">
+</p>
+
+</div>
+
+
+
+<!-- QUANTITY -->
+
+<div>
+
+<p class="text-gray-500 text-sm mb-1">Qty</p>
+
+<div class="flex items-center border border-gray-300 dark:border-slate-700 rounded-lg w-fit">
+
+<button
+class="px-3 py-1 text-gray-600 hover:bg-gray-100 dark:hover:bg-slate-800">
+
+-
+
+</button>
+
+<span class="px-4 py-1 font-medium"
+th:text="${item.quantity}">
+</span>
+
+<button
+class="px-3 py-1 text-gray-600 hover:bg-gray-100 dark:hover:bg-slate-800">
+
++
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- TOTAL -->
+
+<div>
+
+<p class="text-gray-500 text-sm">Total</p>
+
+<p class="font-semibold text-indigo-600"
+th:text="'₹ ' + ${item.totalPrice}">
+</p>
+
+</div>
+
+
+
+<!-- REMOVE -->
+
+<div>
+
+<a th:href="@{/cart/remove/{id}(id=${item.id})}"
+
+class="text-red-500 text-sm font-medium
+hover:text-red-600">
+
+Remove
+
 </a>
 
-                                </td>
+</div>
 
-                            </tr>
+</div>
 
-                        </tbody>
+</div>
 
-                    </table>
+</div>
 
-                </div>
 
-                <!-- ================= CART SUMMARY ================= -->
-                <div class="bg-white rounded-2xl shadow-lg border p-6 h-fit">
 
-                    <h2 class="text-lg font-semibold text-gray-800 mb-6">
-                        Order Summary
-                    </h2>
+<!-- ORDER SUMMARY -->
 
-                    <div class="space-y-4 text-sm">
+<div class="bg-white dark:bg-slate-900
+rounded-2xl
+border border-gray-200 dark:border-slate-800
+shadow-xl
+p-6 h-fit">
 
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Subtotal</span>
-                            <span class="font-medium"
-                                th:text="'₹ ' + ${totalPrice}">
-                            </span>
-                        </div>
 
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Shipping</span>
-                            <span class="font-medium text-green-600">
-                                Free
-                            </span>
-                        </div>
+<h2 class="text-lg font-semibold mb-6">
 
-                        <div
-                            class="flex justify-between border-t pt-4 text-lg font-semibold">
+Order Summary
 
-                            <span>Total</span>
+</h2>
 
-                            <span class="text-indigo-600"
-                                th:text="'₹ ' + ${totalPrice}">
-                            </span>
 
-                        </div>
+<div class="space-y-4 text-sm">
 
-                    </div>
 
-                    <button
-                        class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold
-hover:bg-indigo-700 transition shadow">
+<div class="flex justify-between">
 
-                        Proceed to Checkout
+<span class="text-gray-500">Subtotal</span>
 
-                    </button>
+<span class="font-medium"
+th:text="'₹ ' + ${totalPrice}">
+</span>
 
-                    <a th:href="@{/user/products}"
-                        class="block text-center mt-4 text-sm text-indigo-600 hover:underline">
+</div>
 
-                        Continue Shopping
 
-                    </a>
+<div class="flex justify-between">
 
-                </div>
+<span class="text-gray-500">Shipping</span>
 
-            </div>
+<span class="font-medium text-green-600">
 
-        </div>
+Free
 
-    </body>
+</span>
+
+</div>
+
+
+<div class="flex justify-between border-t
+border-gray-200 dark:border-slate-800
+pt-4 text-lg font-semibold">
+
+<span>Total</span>
+
+<span class="text-indigo-600"
+th:text="'₹ ' + ${totalPrice}">
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<button
+class="mt-6 w-full
+bg-indigo-600
+text-white
+py-3
+rounded-xl
+font-semibold
+hover:bg-indigo-700
+hover:scale-[1.02]
+transition
+shadow-lg">
+
+Proceed to Checkout
+
+</button>
+
+
+<a th:href="@{/user/products}"
+
+class="block text-center mt-4 text-sm
+text-indigo-600 hover:underline">
+
+Continue Shopping
+
+</a>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</body>
 </html>

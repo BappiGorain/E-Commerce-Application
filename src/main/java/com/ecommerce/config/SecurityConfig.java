@@ -23,8 +23,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+            .userDetailsService(userDetailsService)
+
             .authorizeHttpRequests(auth -> auth
-                // Public URLs
                 .requestMatchers(
                         "/", 
                         "/register",
@@ -35,20 +36,34 @@ public class SecurityConfig {
                         "/images/**"
                 ).permitAll()
 
-                // Role based URLs
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+
                 .requestMatchers("/user/**").hasRole("USER")
 
-                // Everything else requires authentication
                 .anyRequest().authenticated()
             )
 
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/doLogin")
-                .defaultSuccessUrl("/user/dashboard", true)
                 .usernameParameter("email")
                 .passwordParameter("password")
+
+                // Role-based redirect
+                .successHandler((request, response, authentication) -> {
+
+                    boolean isAdmin = authentication.getAuthorities()
+                            .stream()
+                            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+                    if (isAdmin) {
+                        response.sendRedirect("/admin/dashboard");
+                    } else {
+                        response.sendRedirect("/user/dashboard");
+                    }
+
+                })
+
                 .permitAll()
             )
 

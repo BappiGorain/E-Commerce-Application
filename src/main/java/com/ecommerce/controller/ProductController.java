@@ -31,7 +31,7 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
-    // ========================= LIST PRODUCTS =========================
+    // ================= LIST PRODUCTS =================
 
     @GetMapping("/allProducts")
     public String showAllProducts(Model model) {
@@ -44,7 +44,7 @@ public class ProductController {
         return "admin/allproducts";
     }
 
-    // ========================= ADD PRODUCT =========================
+    // ================= ADD PRODUCT =================
 
     @GetMapping("/addProduct")
     public String showAddProductPage(Model model) {
@@ -60,13 +60,14 @@ public class ProductController {
 
     @PostMapping("/addProduct")
     public String addProduct(@Valid @ModelAttribute Product product,
-                             BindingResult result,@RequestParam Long categoryId,Model model) {
+                             BindingResult result,
+                             @RequestParam Long categoryId,
+                             Model model) {
 
-            if(result.hasErrors())
-            {
-                model.addAttribute("categories",categoryService.getAllCategories());
-                return "admin/addproduct";
-            }
+        if(result.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "admin/addproduct";
+        }
 
         productService.addProduct(product, categoryId);
 
@@ -75,7 +76,7 @@ public class ProductController {
         return "redirect:/admin/product/allProducts";
     }
 
-    // ========================= UPDATE PRODUCT =========================
+    // ================= UPDATE PRODUCT =================
 
     @GetMapping("/updateProduct/{id}")
     public String showUpdateProductPage(@PathVariable Long id,
@@ -95,26 +96,22 @@ public class ProductController {
     @PostMapping("/updateProduct")
     public String updateProduct(@Valid @ModelAttribute Product product,
                                 BindingResult result,
-                                @RequestParam Long categoryId,Model model) {
+                                @RequestParam Long categoryId,
+                                Model model) {
 
-                if(result.hasErrors())
-                {
-                    model.addAttribute("categories",categoryService.getAllCategories());
+        if(result.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "admin/updateproduct";
+        }
 
-                    return "admin/updateproduct";
-                }
+        productService.updateProduct(product.getId(), product, categoryId);
 
-        productService.updateProduct(product.getId(),
-                                     product,
-                                     categoryId);
+        logger.info("Product updated successfully, id: {}", product.getId());
 
-        logger.info("Product updated successfully, id: {}",
-                product.getId());
-
-        return "redirect:/product/allProducts";
+        return "redirect:/admin/product/allProducts";
     }
 
-    // ========================= DELETE PRODUCT =========================
+    // ================= DELETE PRODUCT =================
 
     @GetMapping("/deleteProduct/{id}")
     public String showDeleteProductPage(@PathVariable Long id,
@@ -128,14 +125,13 @@ public class ProductController {
         return "admin/deleteproduct";
     }
 
-   @PostMapping("/deleteProduct/{id}")
-public String deleteProduct(@PathVariable Long id) {
+    @PostMapping("/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable Long id) {
 
-    productService.deleteProductById(id);
+        productService.deleteProductById(id);
 
-    logger.info("Product deleted successfully, id: {}", id);
+        logger.info("Product deleted successfully, id: {}", id);
 
-    return "redirect:/product/allProducts";
-}
-
+        return "redirect:/admin/product/allProducts";
+    }
 }

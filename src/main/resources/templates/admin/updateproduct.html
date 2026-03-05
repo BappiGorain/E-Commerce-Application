@@ -1,184 +1,380 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Product</title>
 
-    <!-- Flowbite -->
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Tailwind -->
-    <link data-th-href="@{'/css/output.css'}" rel="stylesheet">
+<title>Update Product | Admin</title>
 
-    <style>
-        .fade-in {
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-    </style>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Inter',sans-serif;
+}
+
+/* Animation */
+
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.fade-up{
+animation:fadeUp .6s ease forwards;
+}
+
+</style>
+
 </head>
 
-<body class="bg-gray-50 text-gray-800">
 
-<div th:replace="navbar :: navbar"></div>
+<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300">
 
-<div class="mt-32 max-w-5xl mx-auto px-6 fade-in">
+<!-- NAVBAR -->
+<div th:replace="~{navbar :: navbar}"></div>
 
-    <!-- Header -->
-    <div class="mb-10">
-        <h1 class="text-3xl font-bold text-gray-900">
-            Update Product
-        </h1>
-        <p class="text-gray-500 mt-2">
-            Modify the product details below and save changes.
-        </p>
-    </div>
 
-    <!-- Form Card -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+<div class="max-w-5xl mx-auto px-6 pt-28 pb-16 fade-up">
 
-        <form th:action="@{/product/updateProduct}"
-              th:object="${product}"
-              method="post"
-              class="space-y-8">
 
-            <!-- Hidden ID -->
-            <input type="hidden" th:field="*{id}" />
+<!-- HEADER -->
 
-            <!-- Grid Layout -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="mb-10">
 
-                <!-- Product Name -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Product Name
-                    </label>
-                    <input type="text"
-                           th:field="*{name}"
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></span>
-                </div>
+<h1 class="text-3xl md:text-4xl font-bold
+bg-gradient-to-r from-indigo-600 to-purple-600
+text-transparent bg-clip-text">
 
-                <!-- Brand -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Brand
-                    </label>
-                    <input type="text"
-                           th:field="*{brand}"
-                           required
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-                </div>
+Update Product
 
-                <!-- Price -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Price (₹)
-                    </label>
-                    <input type="number"
-                           step="0.01"
-                           th:field="*{price}"
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red;"></span>
-                </div>
+</h1>
 
-                <!-- Units -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Units Available
-                    </label>
-                    <input type="number"
-                           th:field="*{unitLeft}"
-                           required
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-                    <span th:if="${#fields.hasErrors('unitLeft')}" th:errors="*{unitLeft}" style="color: red;"></span>
-                </div>
+<p class="text-gray-500 mt-2">
 
-                <!-- Category -->
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Category
-                    </label>
-                    <select name="categoryId"
-                            required
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+Modify the product information and save changes.
 
-                        <option value="">Select Category</option>
+</p>
 
-                        <option th:each="cat : ${categories}"
-                                th:value="${cat.id}"
-                                th:text="${cat.name}"
-                                th:selected="${product.category != null and cat.id == product.category.id}">
-                        </option>
-
-                    </select>
-                </div>
-
-                <!-- Manufacture Date -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Manufacture Date
-                    </label>
-                    <input type="date"
-                           th:field="*{manufactureDate}"
-                           required
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-                    <span th:if="${#fields.hasErrors('manufactureDate')}" th:errors="*{manufactureDate}" style="color: red;"></span>
-                </div>
-
-                <!-- Expiration Date -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Expiration Date
-                    </label>
-                    <input type="date"
-                           th:field="*{expirationDate}"
-                           class="w-full px-4 py-3 rounded-lg border border-gray-300
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-                    <p class="text-xs text-gray-400 mt-1">
-                        Leave blank for non-perishable products.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Divider -->
-            <div class="border-t border-gray-200 pt-6 flex justify-between items-center">
-
-                <a href="/product/allProducts"
-                   class="px-5 py-2.5 rounded-lg bg-gray-200 text-gray-700
-                          hover:bg-gray-300 transition">
-                    ← Back to Products
-                </a>
-
-                <div class="flex gap-3">
-                    <button type="reset"
-                            class="px-6 py-2.5 rounded-lg border border-gray-300
-                                   hover:bg-gray-100 transition">
-                        Reset
-                    </button>
-
-                    <button type="submit"
-                            class="px-6 py-2.5 rounded-lg bg-blue-600 text-white
-                                   hover:bg-blue-700 shadow-md transition">
-                        Update Product
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+
+<!-- FORM CARD -->
+
+<div class="bg-white dark:bg-slate-900
+rounded-2xl
+border border-gray-200 dark:border-slate-800
+shadow-xl
+p-8">
+
+
+<form th:action="@{/product/updateProduct}"
+th:object="${product}"
+method="post"
+class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+<!-- HIDDEN ID -->
+
+<input type="hidden" th:field="*{id}" />
+
+
+<!-- PRODUCT NAME -->
+
+<div>
+
+<label class="block text-sm font-medium mb-1">
+
+Product Name
+
+</label>
+
+<input
+type="text"
+th:field="*{name}"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+
+<p th:if="${#fields.hasErrors('name')}"
+th:errors="*{name}"
+class="text-red-500 text-sm mt-1"></p>
+
+</div>
+
+
+
+<!-- BRAND -->
+
+<div>
+
+<label class="block text-sm font-medium mb-1">
+
+Brand
+
+</label>
+
+<input
+type="text"
+th:field="*{brand}"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+</div>
+
+
+
+<!-- PRICE -->
+
+<div>
+
+<label class="block text-sm font-medium mb-1">
+
+Price (₹)
+
+</label>
+
+<input
+type="number"
+step="0.01"
+th:field="*{price}"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+
+<p th:if="${#fields.hasErrors('price')}"
+th:errors="*{price}"
+class="text-red-500 text-sm mt-1"></p>
+
+</div>
+
+
+
+<!-- UNITS -->
+
+<div>
+
+<label class="block text-sm font-medium mb-1">
+
+Units Available
+
+</label>
+
+<input
+type="number"
+th:field="*{unitLeft}"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+
+<p th:if="${#fields.hasErrors('unitLeft')}"
+th:errors="*{unitLeft}"
+class="text-red-500 text-sm mt-1"></p>
+
+</div>
+
+
+
+<!-- CATEGORY -->
+
+<div class="md:col-span-2">
+
+<label class="block text-sm font-medium mb-1">
+
+Category
+
+</label>
+
+<select name="categoryId"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+<option value="">Select Category</option>
+
+<option th:each="cat : ${categories}"
+th:value="${cat.id}"
+th:text="${cat.name}"
+th:selected="${product.category != null and cat.id == product.category.id}">
+</option>
+
+</select>
+
+</div>
+
+
+
+<!-- MANUFACTURE DATE -->
+
+<div>
+
+<label class="block text-sm font-medium mb-1">
+
+Manufacture Date
+
+</label>
+
+<input
+type="date"
+th:field="*{manufactureDate}"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+
+<p th:if="${#fields.hasErrors('manufactureDate')}"
+th:errors="*{manufactureDate}"
+class="text-red-500 text-sm mt-1"></p>
+
+</div>
+
+
+
+<!-- EXPIRATION DATE -->
+
+<div>
+
+<label class="block text-sm font-medium mb-1">
+
+Expiration Date
+
+</label>
+
+<input
+type="date"
+th:field="*{expirationDate}"
+
+class="w-full px-4 py-3
+rounded-xl
+border border-gray-300 dark:border-slate-700
+bg-white dark:bg-slate-800
+focus:outline-none
+focus:ring-2
+focus:ring-indigo-500
+transition">
+
+
+<p class="text-xs text-gray-400 mt-1">
+
+Leave blank for non-perishable products.
+
+</p>
+
+</div>
+
+
+
+<!-- BUTTON SECTION -->
+
+<div class="md:col-span-2
+flex flex-col sm:flex-row
+justify-between
+gap-4
+pt-6
+border-t border-gray-200 dark:border-slate-800">
+
+
+<a th:href="@{/product/allProducts}"
+
+class="px-5 py-2.5
+rounded-lg
+bg-gray-200 dark:bg-slate-800
+text-gray-700 dark:text-gray-300
+hover:bg-gray-300 dark:hover:bg-slate-700
+transition">
+
+← Back to Products
+
+</a>
+
+
+<div class="flex gap-3">
+
+<button type="reset"
+
+class="px-6 py-2.5
+rounded-lg
+border border-gray-300 dark:border-slate-700
+hover:bg-gray-100 dark:hover:bg-slate-800
+transition">
+
+Reset
+
+</button>
+
+
+<button type="submit"
+
+class="px-6 py-2.5
+rounded-lg
+bg-indigo-600
+text-white
+hover:bg-indigo-700
+hover:scale-[1.02]
+shadow-md
+transition">
+
+Update Product
+
+</button>
+
+</div>
+
+
+</div>
+
+
+</form>
+
+</div>
+
+</div>
 
 </body>
 </html>

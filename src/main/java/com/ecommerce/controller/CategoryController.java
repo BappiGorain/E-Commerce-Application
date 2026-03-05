@@ -11,11 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/category")
@@ -32,24 +28,24 @@ public class CategoryController {
     // ================= ADD =================
 
     @GetMapping("/addCategory")
-    public String showAddCategoryPage( Model model)
-    {
+    public String showAddCategoryPage(Model model) {
         model.addAttribute("category", new Category());
         logger.info("category add page loading");
         return "admin/addCategory";
     }
 
     @PostMapping("/addCategory")
-    public String addCategory(@Valid @ModelAttribute Category category,BindingResult result)
-    {
+    public String addCategory(@Valid @ModelAttribute Category category,
+                              BindingResult result) {
 
-        if(result.hasErrors())
-        {
+        if(result.hasErrors()) {
             return "admin/addCategory";
         }
-        
+
         categoryService.addCategory(category);
-        logger.info("new category added ");
+
+        logger.info("new category added");
+
         return "redirect:/admin/category/allCategories";
     }
 
@@ -57,43 +53,55 @@ public class CategoryController {
 
     @GetMapping("/allCategories")
     public String getAllCategories(Model model) {
-        model.addAttribute("categories", categoryService.getAllCategories());
+
+        model.addAttribute("categories",
+                categoryService.getAllCategories());
+
         return "admin/allcategories";
     }
 
     // ================= UPDATE =================
 
     @GetMapping("/updateCategory/{id}")
-    public String showUpdateCategoryPage(@PathVariable Long id, Model model) {
-        model.addAttribute("category", categoryService.getCategoryById(id));
+    public String showUpdateCategoryPage(@PathVariable Long id,
+                                         Model model) {
+
+        model.addAttribute("category",
+                categoryService.getCategoryById(id));
+
         return "admin/updatecategory";
     }
 
     @PostMapping("/updateCategory")
-    public String updateCategory(@Valid @ModelAttribute Category category,BindingResult result ) {
-        if(result.hasErrors())
-        {
-            return "admin/addCategory";
+    public String updateCategory(@Valid @ModelAttribute Category category,
+                                 BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "admin/updatecategory";
         }
+
         categoryService.updateCategory(category.getId(), category);
-        return "redirect:/category/allCategories";
+
+        return "redirect:/admin/category/allCategories";
     }
 
-   // ================= DELETE =================
+    // ================= DELETE =================
 
-// STEP 1: Show confirmation page
-@GetMapping("/deleteCategory/{id}")
-public String showDeleteConfirmation(@PathVariable Long id, Model model) {
-    model.addAttribute("category", categoryService.getCategoryById(id));
-    return "admin/deletecategory";
-}
+    @GetMapping("/deleteCategory/{id}")
+    public String showDeleteConfirmation(@PathVariable Long id,
+                                         Model model) {
 
-// STEP 2: Perform delete AFTER confirmation
-@PostMapping("/deleteCategory/{id}")
-public String deleteCategory(@PathVariable Long id) {
-    categoryService.deleteCategoryById(id);
-    return "redirect:/category/allCategories";
-}
+        model.addAttribute("category",
+                categoryService.getCategoryById(id));
 
-    
+        return "admin/deletecategory";
+    }
+
+    @PostMapping("/deleteCategory/{id}")
+    public String deleteCategory(@PathVariable Long id) {
+
+        categoryService.deleteCategoryById(id);
+
+        return "redirect:/admin/category/allCategories";
+    }
 }
