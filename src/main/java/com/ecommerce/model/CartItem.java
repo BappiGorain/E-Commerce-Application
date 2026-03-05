@@ -1,40 +1,35 @@
 package com.ecommerce.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User
-{                  
+public class CartItem
+{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @ManyToOne
+    private Cart cart;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    private Product product;
 
-    @Column(nullable = false,unique = true)
-    private String email;
+    private int quantity;
 
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String role;
-
-    private boolean enabled = true;
-
+    private double totalPrice;
 }
