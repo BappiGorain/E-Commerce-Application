@@ -32,6 +32,7 @@ public class GlobalModelAttributes
             int cartCount = cartService.getCartItemCount(user);
 
             model.addAttribute("cartCount", cartCount);
+            model.addAttribute("user",user);
         }
     }
 }

@@ -3,108 +3,104 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Dashboard</title>
+    <title>Admin Dashboard</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-body{
-font-family:'Inter',sans-serif;
-}
-</style>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 
 </head>
 
 <body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition">
 
-<div class="max-w-7xl mx-auto px-6 pt-28 pb-16">
+    <div class="max-w-7xl mx-auto px-6 pt-28 pb-16">
 
-<h1 class="text-4xl font-bold mb-8
-bg-gradient-to-r from-indigo-600 to-purple-600
-text-transparent bg-clip-text">
+        <h1 class="text-4xl font-bold mb-8
+            bg-gradient-to-r from-indigo-600 to-purple-600
+            text-transparent bg-clip-text">
 
-Admin Dashboard
+            Admin Dashboard
 
-</h1>
+        </h1>
 
-<div class="grid md:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-3 gap-6">
 
-<!-- PRODUCTS -->
+            <!-- PRODUCTS -->
 
-<a th:href="@{/admin/product/allProducts}"
-class="p-8 rounded-2xl
+            <a th:href="@{/admin/product/allProducts}" class="p-8 rounded-2xl
 bg-white dark:bg-slate-900
 shadow-lg hover:shadow-xl
 transition hover:-translate-y-1">
 
-<h2 class="text-xl font-semibold mb-2">
+                <h2 class="text-xl font-semibold mb-2">
 
-Manage Products
+                    Manage Products
 
-</h2>
+                </h2>
 
-<p class="text-gray-500">
+                <p class="text-gray-500">
 
-Add, update or delete store products.
+                    Add, update or delete store products.
 
-</p>
+                </p>
 
-</a>
+            </a>
 
+            <!-- CATEGORIES -->
 
-<!-- CATEGORIES -->
-
-<a th:href="@{/admin/category/allCategories}"
-class="p-8 rounded-2xl
+            <a th:href="@{/admin/category/allCategories}" class="p-8 rounded-2xl
 bg-white dark:bg-slate-900
 shadow-lg hover:shadow-xl
 transition hover:-translate-y-1">
 
-<h2 class="text-xl font-semibold mb-2">
+                <h2 class="text-xl font-semibold mb-2">
 
-Manage Categories
+                    Manage Categories
 
-</h2>
+                </h2>
 
-<p class="text-gray-500">
+                <p class="text-gray-500">
 
-Organize your product categories.
+                    Organize your product categories.
 
-</p>
+                </p>
 
-</a>
+            </a>
 
+            <!-- USERS -->
 
-<!-- USERS -->
-
-<a th:href="@{/admin/users}"
-class="p-8 rounded-2xl
+            <a th:href="@{/admin/users}" class="p-8 rounded-2xl
 bg-white dark:bg-slate-900
 shadow-lg hover:shadow-xl
 transition hover:-translate-y-1">
 
-<h2 class="text-xl font-semibold mb-2">
+                <h2 class="text-xl font-semibold mb-2">
 
-Manage Users
+                    Manage Users
 
-</h2>
+                </h2>
 
-<p class="text-gray-500">
+                <p class="text-gray-500">
 
-View and manage platform users.
+                    View and manage platform users.
 
-</p>
+                </p>
 
-</a>
+            </a>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </body>
+
 </html>

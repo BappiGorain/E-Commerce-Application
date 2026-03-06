@@ -1,155 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Delete Product | Admin</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-font-family:'Inter',sans-serif;
-}
-
-/* Animation */
-
-@keyframes fadeUp{
-from{opacity:0; transform:scale(.95);}
-to{opacity:1; transform:scale(1);}
-}
-
-.fade-up{
-animation:fadeUp .4s ease forwards;
-}
-
-</style>
-
-</head>
-
-
-<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-
-<!-- NAVBAR -->
-<div th:replace="~{navbar :: navbar}"></div>
-
-
-
-<div class="max-w-xl mx-auto px-6 pt-32 fade-up">
-
-
-<div class="bg-white dark:bg-slate-900
-rounded-2xl
-border border-red-200 dark:border-red-800
-shadow-xl
-p-8 text-center">
-
-
-<h1 class="text-2xl font-bold text-red-600 mb-4">
-
-Delete Product
-
-</h1>
-
-
-<p class="text-gray-500 mb-6">
-
-You are about to delete this product.  
-<span class="font-semibold text-red-600">This action cannot be undone.</span>
-
-</p>
-
-
-
-<!-- PRODUCT INFO -->
-
-<div class="bg-red-50 dark:bg-red-900/20
-border border-red-200 dark:border-red-800
-rounded-xl
-p-5 mb-6 text-left space-y-1">
-
-
-<p>
-
-<strong>ID:</strong>
-<span th:text="${product.id}"></span>
-
-</p>
-
-<p>
-
-<strong>Name:</strong>
-<span th:text="${product.name}"></span>
-
-</p>
-
-<p>
-
-<strong>Brand:</strong>
-<span th:text="${product.brand}"></span>
-
-</p>
-
-<p>
-
-<strong>Price:</strong>
-₹ <span th:text="${product.price}"></span>
-
-</p>
-
-</div>
-
-
-
-<!-- ACTION BUTTONS -->
-
-<form th:action="@{/product/deleteProduct/{id}(id=${product.id})}"
-method="post"
-class="flex gap-4">
-
-
-<a th:href="@{/product/allProducts}"
-
-class="flex-1
-px-4 py-2
-rounded-xl
-bg-gray-200 dark:bg-slate-800
-hover:bg-gray-300 dark:hover:bg-slate-700
-transition">
-
-Cancel
-
-</a>
-
-
-<button type="submit"
-
-class="flex-1
-px-4 py-2
-rounded-xl
-bg-red-600
-text-white
-hover:bg-red-700
-shadow
-transition">
-
-Delete Product
-
-</button>
-
-
-</form>
-
-
-</div>
-
-</div>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Delete Product | Admin</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Animation */
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.4s ease forwards;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300"
+  >
+    <!-- NAVBAR -->
+    <div th:replace="~{navbar :: navbar}"></div>
+
+    <div class="max-w-xl mx-auto px-6 pt-32 fade-up">
+      <div
+        class="bg-white dark:bg-slate-900 rounded-2xl border border-red-200 dark:border-red-800 shadow-xl p-8 text-center"
+      >
+        <h1 class="text-2xl font-bold text-red-600 mb-4">Delete Product</h1>
+
+        <p class="text-gray-500 mb-6">
+          You are about to delete this product.
+          <span class="font-semibold text-red-600"
+            >This action cannot be undone.</span
+          >
+        </p>
+
+        <!-- PRODUCT INFO -->
+
+        <div
+          class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-5 mb-6 text-left space-y-1"
+        >
+          <p>
+            <strong>ID:</strong>
+            <span th:text="${product.id}"></span>
+          </p>
+
+          <p>
+            <strong>Name:</strong>
+            <span th:text="${product.name}"></span>
+          </p>
+
+          <p>
+            <strong>Brand:</strong>
+            <span th:text="${product.brand}"></span>
+          </p>
+
+          <p>
+            <strong>Price:</strong>
+            ₹ <span th:text="${product.price}"></span>
+          </p>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+
+        <form
+          th:action="@{/admin/product/deleteProduct/{id}(id=${product.id})}"
+          method="post"
+          class="flex gap-4"
+        >
+          <a
+            th:href="@{/admin/product/allProducts}"
+            class="flex-1 px-4 py-2 rounded-xl bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 transition"
+          >
+            Cancel
+          </a>
+
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 shadow transition"
+          >
+            Delete Product
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

@@ -17,15 +17,15 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/product")
-public class ProductController {
+public class AdminProductController {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(ProductController.class);
+            LoggerFactory.getLogger(AdminProductController.class);
 
     private final ProductService productService;
     private final CategoryService categoryService;
 
-    public ProductController(ProductService productService,
+    public AdminProductController(ProductService productService,
                              CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;

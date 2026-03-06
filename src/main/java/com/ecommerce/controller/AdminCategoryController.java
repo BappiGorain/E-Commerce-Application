@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/category")
-public class CategoryController {
-
-    Logger logger = LoggerFactory.getLogger(CategoryController.class);
+public class AdminCategoryController 
+{
+    
+    Logger logger = LoggerFactory.getLogger(AdminCategoryController.class);
 
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    public AdminCategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
