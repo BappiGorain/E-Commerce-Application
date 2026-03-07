@@ -47,7 +47,10 @@ public class Product
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
-    private String image = "Default.png";
+    @Column(name = "image_name")
+    private String image;
+
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)

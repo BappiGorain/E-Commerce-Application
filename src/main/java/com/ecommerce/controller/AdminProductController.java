@@ -1,6 +1,12 @@
 package com.ecommerce.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.model.Product;
 import com.ecommerce.service.CategoryService;
@@ -19,14 +26,13 @@ import jakarta.validation.Valid;
 @RequestMapping("/admin/product")
 public class AdminProductController {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(AdminProductController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminProductController.class);
 
     private final ProductService productService;
     private final CategoryService categoryService;
 
     public AdminProductController(ProductService productService,
-                             CategoryService categoryService) {
+            CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;
     }
@@ -59,19 +65,37 @@ public class AdminProductController {
     }
 
     @PostMapping("/addProduct")
-    public String addProduct(@Valid @ModelAttribute Product product,
-                             BindingResult result,
-                             @RequestParam Long categoryId,
-                             Model model) {
+    public String addProduct(
+            @ModelAttribute Product product,
+            @RequestParam("categoryId") Long categoryId,
+            @RequestParam("imageFile") MultipartFile file) {
 
-        if(result.hasErrors()) {
-            model.addAttribute("categories", categoryService.getAllCategories());
-            return "admin/addproduct";
+        try {
+
+            if (!file.isEmpty()) {
+
+                String uploadDir = "src/main/resources/static/images/products/";
+
+                String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+                Path uploadPath = Paths.get(uploadDir);
+
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                Path filePath = uploadPath.resolve(fileName);
+
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                product.setImage(fileName);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         productService.addProduct(product, categoryId);
-
-        logger.info("Product added successfully");
 
         return "redirect:/admin/product/allProducts";
     }
@@ -80,7 +104,7 @@ public class AdminProductController {
 
     @GetMapping("/updateProduct/{id}")
     public String showUpdateProductPage(@PathVariable Long id,
-                                        Model model) {
+            Model model) {
 
         Product product = productService.getProductById(id);
 
@@ -95,11 +119,11 @@ public class AdminProductController {
 
     @PostMapping("/updateProduct")
     public String updateProduct(@Valid @ModelAttribute Product product,
-                                BindingResult result,
-                                @RequestParam Long categoryId,
-                                Model model) {
+            BindingResult result,
+            @RequestParam Long categoryId,
+            Model model) {
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("categories", categoryService.getAllCategories());
             return "admin/updateproduct";
         }
@@ -115,7 +139,7 @@ public class AdminProductController {
 
     @GetMapping("/deleteProduct/{id}")
     public String showDeleteProductPage(@PathVariable Long id,
-                                        Model model) {
+            Model model) {
 
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
