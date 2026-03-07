@@ -1,309 +1,277 @@
-<!DOCTYPE html>
+```html
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Products | ShopSmart</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-font-family:'Inter',sans-serif;
-}
-
-/* Fade animation */
-
-@keyframes fadeUp{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-.fade-up{
-animation:fadeUp .6s ease forwards;
-}
-
-/* Row hover */
-
-.table-row{
-transition:all .25s ease;
-}
-
-.table-row:hover{
-transform:scale(1.01);
-background:rgba(0,0,0,0.02);
-}
-
-/* Product card hover */
-
-.card-hover{
-transition:all .25s ease;
-}
-
-.card-hover:hover{
-transform:translateY(-4px);
-box-shadow:0 20px 40px rgba(0,0,0,.08);
-}
-
-</style>
-
-</head>
-
-
-<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-
-<!-- NAVBAR -->
-<div th:replace="~{navbar :: navbar}"></div>
-
-
-<div class="pt-24 max-w-7xl mx-auto px-6 fade-up">
-
-
-<!-- PAGE HEADER -->
-
-<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-4">
-
-<div>
-
-<h1 class="text-3xl md:text-4xl font-bold
-bg-gradient-to-r from-indigo-600 to-purple-600
-text-transparent bg-clip-text">
-
-Product Dashboard
-
-</h1>
-
-<p class="text-gray-500 mt-1">
-
-Browse and manage available products
-
-</p>
-
-</div>
-
-</div>
-
-
-
-<!-- DESKTOP TABLE -->
-
-<div class="hidden md:block
-bg-white dark:bg-slate-900
-rounded-2xl
-shadow-xl
-border border-gray-200 dark:border-slate-800
-overflow-hidden">
-
-
-<div class="overflow-x-auto">
-
-<table class="w-full text-sm">
-
-<thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-
-<tr class="text-left text-xs uppercase">
-
-<th class="px-6 py-4">Product</th>
-<th class="px-6 py-4">Price</th>
-<th class="px-6 py-4">Brand</th>
-<th class="px-6 py-4">Stock</th>
-<th class="px-6 py-4">Manufacture</th>
-<th class="px-6 py-4">Expiry</th>
-<th class="px-6 py-4 text-center">Actions</th>
-
-</tr>
-
-</thead>
-
-
-<tbody class="divide-y divide-gray-200 dark:divide-slate-800">
-
-<tr th:each="product : ${products}"
-class="table-row">
-
-<td class="px-6 py-4 font-semibold">
-
-<span th:text="${product.name}"></span>
-
-</td>
-
-
-<td class="px-6 py-4 font-semibold text-green-600">
-
-₹ <span th:text="${product.price}"></span>
-
-</td>
-
-
-<td class="px-6 py-4 text-gray-600 dark:text-gray-400"
-th:text="${product.brand}"></td>
-
-
-<td class="px-6 py-4">
-
-<span th:if="${product.unitLeft > 10}"
-class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
-
-<span th:text="${product.unitLeft}"></span> Available
-
-</span>
-
-
-<span th:if="${product.unitLeft <= 10}"
-class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full">
-
-<span th:text="${product.unitLeft}"></span> Low
-
-</span>
-
-</td>
-
-
-<td class="px-6 py-4 text-gray-600 dark:text-gray-400"
-th:text="${product.manufactureDate}"></td>
-
-
-<td class="px-6 py-4">
-
-<span th:if="${product.expirationDate != null}"
-th:text="${product.expirationDate}"></span>
-
-<span th:if="${product.expirationDate == null}"
-class="italic text-gray-400">
-
-No Expiry
-
-</span>
-
-</td>
-
-
-<td class="px-6 py-4 text-center">
-
-<a th:href="@{/cart/add/{id}(id=${product.id})}"
-
-class="bg-indigo-600 text-white px-4 py-2 rounded-lg
-hover:bg-indigo-700
-hover:scale-105
-transition shadow">
-
-Add To Cart
-
-</a>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-
-
-<!-- MOBILE PRODUCT CARDS -->
-
-<div class="grid gap-5 md:hidden">
-
-<div th:each="product : ${products}"
-
-class="bg-white dark:bg-slate-900
-rounded-xl
-border border-gray-200 dark:border-slate-800
-p-5 card-hover">
-
-
-<div class="flex justify-between items-start">
-
-<h2 class="font-semibold text-lg text-indigo-600"
-th:text="${product.name}"></h2>
-
-<span class="font-bold text-green-600">
-
-₹ <span th:text="${product.price}"></span>
-
-</span>
-
-</div>
-
-
-<p class="text-sm text-gray-500 mt-1">
-
-Brand: <span th:text="${product.brand}"></span>
-
-</p>
-
-
-<div class="mt-3">
-
-<span th:if="${product.unitLeft > 10}"
-class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full">
-
-<span th:text="${product.unitLeft}"></span> Available
-
-</span>
-
-<span th:if="${product.unitLeft <= 10}"
-class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full">
-
-<span th:text="${product.unitLeft}"></span> Low Stock
-
-</span>
-
-</div>
-
-
-<div class="mt-3 text-sm text-gray-500">
-
-MFG: <span th:text="${product.manufactureDate}"></span>
-
-</div>
-
-
-<div class="text-sm text-gray-500">
-
-Expiry:
-
-<span th:if="${product.expirationDate != null}"
-th:text="${product.expirationDate}"></span>
-
-<span th:if="${product.expirationDate == null}" class="italic">
-
-No Expiry
-
-</span>
-
-</div>
-
-
-<a th:href="@{/cart/add/{id}(id=${product.id})}"
-
-class="mt-4 block text-center
-bg-indigo-600 text-white py-2 rounded-lg
-hover:bg-indigo-700
-transition">
-
-Add To Cart
-
-</a>
-
-</div>
-
-</div>
-
-
-</div>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Products | ShopSmart</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Fade animation */
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.6s ease forwards;
+      }
+
+      /* Table hover */
+
+      .table-row {
+        transition: all 0.25s ease;
+      }
+
+      .table-row:hover {
+        transform: scale(1.01);
+        background: rgba(0, 0, 0, 0.02);
+      }
+
+      /* Card hover */
+
+      .card-hover {
+        transition: all 0.25s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300"
+  >
+    <!-- NAVBAR -->
+    <div th:replace="~{navbar :: navbar}"></div>
+
+    <div class="pt-24 max-w-7xl mx-auto px-6 fade-up">
+      <!-- HEADER + SEARCH -->
+
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-6"
+      >
+        <div>
+          <h1
+            class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+          >
+            Product Dashboard
+          </h1>
+
+          <p class="text-gray-500 mt-1">Browse and manage available products</p>
+        </div>
+
+        <!-- SEARCH BAR -->
+
+        <form th:action="@{/user/search}" method="get" class="w-full sm:w-80">
+          <div class="relative">
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="2"
+                  d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+
+            <input
+              type="search"
+              name="keyword"
+              placeholder="Search products..."
+              class="w-full pl-9 pr-20 py-2.5 text-sm bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+              required
+            />
+
+            <button
+              type="submit"
+              class="absolute right-1 top-1/2 -translate-y-1/2 bg-indigo-600 text-white text-xs px-4 py-1.5 rounded-md hover:bg-indigo-700 transition"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- DESKTOP TABLE -->
+
+      <div
+        class="hidden md:block bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-800 overflow-hidden"
+      >
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead
+              class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+            >
+              <tr class="text-left text-xs uppercase">
+                <th class="px-6 py-4">Product</th>
+                <th class="px-6 py-4">Price</th>
+                <th class="px-6 py-4">Brand</th>
+                <th class="px-6 py-4">Stock</th>
+                <th class="px-6 py-4">Manufacture</th>
+                <th class="px-6 py-4">Expiry</th>
+                <th class="px-6 py-4 text-center">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-slate-800">
+              <tr th:each="product : ${products}" class="table-row">
+                <td class="px-6 py-4 font-semibold">
+                  <span th:text="${product.name}"></span>
+                </td>
+
+                <td class="px-6 py-4 font-semibold text-green-600">
+                  ₹ <span th:text="${product.price}"></span>
+                </td>
+
+                <td
+                  class="px-6 py-4 text-gray-600 dark:text-gray-400"
+                  th:text="${product.brand}"
+                ></td>
+
+                <td class="px-6 py-4">
+                  <span
+                    th:if="${product.unitLeft > 10}"
+                    class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
+                  >
+                    <span th:text="${product.unitLeft}"></span> Available
+                  </span>
+
+                  <span
+                    th:if="${product.unitLeft <= 10}"
+                    class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full"
+                  >
+                    <span th:text="${product.unitLeft}"></span> Low
+                  </span>
+                </td>
+
+                <td
+                  class="px-6 py-4 text-gray-600 dark:text-gray-400"
+                  th:text="${product.manufactureDate}"
+                ></td>
+
+                <td class="px-6 py-4">
+                  <span
+                    th:if="${product.expirationDate != null}"
+                    th:text="${product.expirationDate}"
+                  >
+                  </span>
+
+                  <span
+                    th:if="${product.expirationDate == null}"
+                    class="italic text-gray-400"
+                  >
+                    No Expiry
+                  </span>
+                </td>
+
+                <td class="px-6 py-4 text-center">
+                  <a
+                    th:href="@{/cart/add/{id}(id=${product.id})}"
+                    class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 hover:scale-105 transition shadow"
+                  >
+                    Add To Cart
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MOBILE PRODUCT CARDS -->
+
+      <div class="grid gap-5 md:hidden">
+        <div
+          th:each="product : ${products}"
+          class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 p-5 card-hover"
+        >
+          <div class="flex justify-between items-start">
+            <h2
+              class="font-semibold text-lg text-indigo-600"
+              th:text="${product.name}"
+            ></h2>
+
+            <span class="font-bold text-green-600">
+              ₹ <span th:text="${product.price}"></span>
+            </span>
+          </div>
+
+          <p class="text-sm text-gray-500 mt-1">
+            Brand: <span th:text="${product.brand}"></span>
+          </p>
+
+          <div class="mt-3">
+            <span
+              th:if="${product.unitLeft > 10}"
+              class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
+            >
+              <span th:text="${product.unitLeft}"></span> Available
+            </span>
+
+            <span
+              th:if="${product.unitLeft <= 10}"
+              class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full"
+            >
+              <span th:text="${product.unitLeft}"></span> Low Stock
+            </span>
+          </div>
+
+          <div class="mt-3 text-sm text-gray-500">
+            MFG: <span th:text="${product.manufactureDate}"></span>
+          </div>
+
+          <div class="text-sm text-gray-500">
+            Expiry:
+
+            <span
+              th:if="${product.expirationDate != null}"
+              th:text="${product.expirationDate}"
+            >
+            </span>
+
+            <span th:if="${product.expirationDate == null}" class="italic">
+              No Expiry
+            </span>
+          </div>
+
+          <a
+            th:href="@{/cart/add/{id}(id=${product.id})}"
+            class="mt-4 block text-center bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+          >
+            Add To Cart
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

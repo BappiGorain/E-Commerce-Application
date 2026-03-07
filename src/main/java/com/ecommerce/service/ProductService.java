@@ -18,4 +18,6 @@ public interface ProductService
 
     public void deleteProductById(Long productId);
 
+    public List<Product> searchProduct(String keyword);
+
 }

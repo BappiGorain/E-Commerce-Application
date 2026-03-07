@@ -1,106 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Admin Dashboard</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      .card-hover {
+        transition: all 0.25s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      }
     </style>
+  </head>
 
-</head>
+  <body
+    class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition"
+  >
+    <!-- NAVBAR -->
 
-<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition">
+    <div th:replace="~{admin/navbar :: adminNavbar}"></div>
 
     <div class="max-w-7xl mx-auto px-6 pt-28 pb-16">
+      <!-- PAGE TITLE -->
 
-        <h1 class="text-4xl font-bold mb-8
-            bg-gradient-to-r from-indigo-600 to-purple-600
-            text-transparent bg-clip-text">
-
-            Admin Dashboard
-
+      <div class="flex items-center justify-between mb-10">
+        <h1
+          class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+        >
+          Admin Dashboard
         </h1>
 
-        <div class="grid md:grid-cols-3 gap-6">
+        <p class="text-gray-500 hidden md:block">
+          Manage your entire e-commerce platform
+        </p>
+      </div>
 
-            <!-- PRODUCTS -->
+      <!-- STATS CARDS -->
 
-            <a th:href="@{/admin/product/allProducts}" class="p-8 rounded-2xl
-bg-white dark:bg-slate-900
-shadow-lg hover:shadow-xl
-transition hover:-translate-y-1">
+      <div class="grid md:grid-cols-4 gap-6 mb-12">
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow card-hover"
+        >
+          <p class="text-sm text-gray-500">Total Products</p>
 
-                <h2 class="text-xl font-semibold mb-2">
-
-                    Manage Products
-
-                </h2>
-
-                <p class="text-gray-500">
-
-                    Add, update or delete store products.
-
-                </p>
-
-            </a>
-
-            <!-- CATEGORIES -->
-
-            <a th:href="@{/admin/category/allCategories}" class="p-8 rounded-2xl
-bg-white dark:bg-slate-900
-shadow-lg hover:shadow-xl
-transition hover:-translate-y-1">
-
-                <h2 class="text-xl font-semibold mb-2">
-
-                    Manage Categories
-
-                </h2>
-
-                <p class="text-gray-500">
-
-                    Organize your product categories.
-
-                </p>
-
-            </a>
-
-            <!-- USERS -->
-
-            <a th:href="@{/admin/users}" class="p-8 rounded-2xl
-bg-white dark:bg-slate-900
-shadow-lg hover:shadow-xl
-transition hover:-translate-y-1">
-
-                <h2 class="text-xl font-semibold mb-2">
-
-                    Manage Users
-
-                </h2>
-
-                <p class="text-gray-500">
-
-                    View and manage platform users.
-
-                </p>
-
-            </a>
-
+          <h2
+            class="text-3xl font-bold text-indigo-600 mt-1"
+            th:text="${totalProducts}"
+          >
+            0
+          </h2>
         </div>
 
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow card-hover"
+        >
+          <p class="text-sm text-gray-500">Categories</p>
+
+          <h2
+            class="text-3xl font-bold text-purple-600 mt-1"
+            th:text="${totalCategories}"
+          >
+            0
+          </h2>
+        </div>
+
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow card-hover"
+        >
+          <p class="text-sm text-gray-500">Users</p>
+
+          <h2
+            class="text-3xl font-bold text-green-600 mt-1"
+            th:text="${totalUsers}"
+          >
+            0
+          </h2>
+        </div>
+
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow card-hover"
+        >
+          <p class="text-sm text-gray-500">Orders</p>
+
+          <h2
+            class="text-3xl font-bold text-pink-600 mt-1"
+            th:text="${totalOrders}"
+          >
+            0
+          </h2>
+        </div>
+      </div>
+
+      <!-- MANAGEMENT SECTION -->
+
+      <h2 class="text-2xl font-semibold mb-6">Management</h2>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- PRODUCTS -->
+
+        <a
+          th:href="@{/admin/product/allProducts}"
+          class="p-8 rounded-2xl bg-white dark:bg-slate-900 shadow-lg card-hover"
+        >
+          <div class="flex items-center gap-4 mb-4">
+            <div
+              class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-100 text-indigo-600 text-xl"
+            >
+              📦
+            </div>
+
+            <h3 class="text-lg font-semibold">Manage Products</h3>
+          </div>
+
+          <p class="text-gray-500 text-sm">
+            Add, update or remove store products.
+          </p>
+        </a>
+
+        <!-- CATEGORIES -->
+
+        <a
+          th:href="@{/admin/category/allCategories}"
+          class="p-8 rounded-2xl bg-white dark:bg-slate-900 shadow-lg card-hover"
+        >
+          <div class="flex items-center gap-4 mb-4">
+            <div
+              class="w-12 h-12 flex items-center justify-center rounded-xl bg-purple-100 text-purple-600 text-xl"
+            >
+              🗂
+            </div>
+
+            <h3 class="text-lg font-semibold">Manage Categories</h3>
+          </div>
+
+          <p class="text-gray-500 text-sm">
+            Organize and control product categories.
+          </p>
+        </a>
+
+        <!-- USERS -->
+
+        <a
+          th:href="@{/admin/users}"
+          class="p-8 rounded-2xl bg-white dark:bg-slate-900 shadow-lg card-hover"
+        >
+          <div class="flex items-center gap-4 mb-4">
+            <div
+              class="w-12 h-12 flex items-center justify-center rounded-xl bg-green-100 text-green-600 text-xl"
+            >
+              👥
+            </div>
+
+            <h3 class="text-lg font-semibold">Manage Users</h3>
+          </div>
+
+          <p class="text-gray-500 text-sm">View and manage platform users.</p>
+        </a>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+
+      <h2 class="text-2xl font-semibold mt-14 mb-6">Quick Actions</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <a
+          th:href="@{/admin/product/addProduct}"
+          class="p-6 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg card-hover"
+        >
+          <h3 class="text-lg font-semibold mb-1">Add New Product</h3>
+
+          <p class="text-sm opacity-80">Create and publish a new product.</p>
+        </a>
+
+        <a
+          th:href="@{/admin/category/addCategory}"
+          class="p-6 rounded-xl bg-gradient-to-r from-pink-600 to-rose-500 text-white shadow-lg card-hover"
+        >
+          <h3 class="text-lg font-semibold mb-1">Add Category</h3>
+
+          <p class="text-sm opacity-80">Create a new product category.</p>
+        </a>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>

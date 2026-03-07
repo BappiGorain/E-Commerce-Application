@@ -1,333 +1,300 @@
 <div th:fragment="navbar">
+  <header
+    class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 border-b border-gray-200 dark:border-slate-700 shadow-sm transition"
+  >
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <!-- BRAND -->
+        <a th:href="@{/user/dashboard}" class="flex items-center gap-3 group">
+          <div
+            class="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white font-bold shadow-md group-hover:scale-105 transition"
+          >
+            EC
+          </div>
 
-<header class="fixed top-0 left-0 w-full z-50
-backdrop-blur-xl bg-white/70 dark:bg-slate-900/70
-border-b border-gray-200 dark:border-slate-700
-shadow-sm transition">
+          <div>
+            <p class="font-bold text-gray-900 dark:text-white">E-Commerce</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 -mt-1">
+              User Panel
+            </p>
+          </div>
+        </a>
 
-<div class="max-w-7xl mx-auto px-6">
-<div class="flex items-center justify-between h-16">
+        <!-- DESKTOP NAV -->
+        <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+          <a
+            th:href="@{/user/dashboard}"
+            class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 transition"
+          >
+            Dashboard
+          </a>
 
-<!-- BRAND -->
-<a th:href="@{/user/dashboard}" class="flex items-center gap-3 group">
+          <a
+            th:href="@{/user/products}"
+            class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 transition"
+          >
+            Products
+          </a>
 
-<div class="h-10 w-10 flex items-center justify-center rounded-xl
-bg-gradient-to-br from-indigo-600 to-purple-600
-text-white font-bold shadow-md
-group-hover:scale-105 transition">
+          <a
+            th:href="@{/orders}"
+            class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-slate-800 hover:text-pink-600 transition"
+          >
+            Orders
+          </a>
 
-EC
+          <!-- CART -->
+          <a
+            th:href="@{/user/cart}"
+            class="relative px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:text-indigo-600 transition"
+          >
+            Cart
 
-</div>
+            <span
+              th:if="${cartCount > 0}"
+              th:text="${cartCount}"
+              class="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5 shadow"
+            >
+            </span>
+          </a>
+        </nav>
 
-<div>
-<p class="font-bold text-gray-900 dark:text-white">E-Commerce</p>
-<p class="text-xs text-gray-500 dark:text-gray-400 -mt-1">User Panel</p>
-</div>
+        <!-- RIGHT SIDE -->
+        <div class="flex items-center gap-3">
+          <!-- THEME TOGGLE -->
+          <button
+            id="themeToggle"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition"
+          >
+            <!-- MOON -->
+            <svg
+              id="moonIcon"
+              class="w-5 h-5 text-gray-700 dark:hidden"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 12.79A9 9 0 1111.21 3
+7 7 0 0021 12.79z"
+              />
+            </svg>
 
-</a>
-
-
-<!-- DESKTOP NAV -->
-<nav class="hidden md:flex items-center gap-1 text-sm font-medium">
-
-<a th:href="@{/user/dashboard}"
-class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300
-hover:bg-blue-50 dark:hover:bg-slate-800
-hover:text-blue-600 transition">
-Dashboard
-</a>
-
-<a th:href="@{/user/products}"
-class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300
-hover:bg-indigo-50 dark:hover:bg-slate-800
-hover:text-indigo-600 transition">
-Products
-</a>
-
-<a th:href="@{/orders}"
-class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300
-hover:bg-pink-50 dark:hover:bg-slate-800
-hover:text-pink-600 transition">
-Orders
-</a>
-
-
-<!-- CART -->
-<a th:href="@{/user/cart}"
-class="relative px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300
-hover:bg-indigo-50 dark:hover:bg-slate-800
-hover:text-indigo-600 transition">
-
-Cart
-
-<span th:if="${cartCount > 0}"
-th:text="${cartCount}"
-class="absolute -top-1 -right-2
-bg-red-500 text-white text-xs
-rounded-full px-2 py-0.5 shadow">
-</span>
-
-</a>
-
-</nav>
-
-
-<!-- RIGHT SIDE -->
-<div class="flex items-center gap-3">
-
-
-<!-- THEME TOGGLE -->
-<button id="themeToggle"
-class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition">
-
-<!-- MOON -->
-<svg id="moonIcon"
-class="w-5 h-5 text-gray-700 dark:hidden"
-xmlns="http://www.w3.org/2000/svg"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor">
-
-<path stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M21 12.79A9 9 0 1111.21 3
-7 7 0 0021 12.79z"/>
-
-</svg>
-
-<!-- SUN -->
-<svg id="sunIcon"
-class="w-5 h-5 text-yellow-400 hidden dark:block"
-xmlns="http://www.w3.org/2000/svg"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor">
-
-<path stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M12 3v2m0 14v2m9-9h-2M5 12H3
+            <!-- SUN -->
+            <svg
+              id="sunIcon"
+              class="w-5 h-5 text-yellow-400 hidden dark:block"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v2m0 14v2m9-9h-2M5 12H3
 m15.364 6.364l-1.414-1.414
 M6.05 6.05L4.636 4.636
 m12.728 0l-1.414 1.414
 M6.05 17.95l-1.414 1.414
-M12 8a4 4 0 100 8 4 4 0 000-8z"/>
-
-</svg>
-
-</button>
-
-
-<!-- USER DROPDOWN -->
-<div class="relative">
-
-<button
-class="flex items-center gap-2 px-2 py-1 rounded-full
-hover:bg-gray-100 dark:hover:bg-slate-800 transition"
-data-dropdown-toggle="userDropdown">
-
-<img
-class="w-9 h-9 rounded-full ring-2 ring-indigo-500/40"
-th:src="'https://ui-avatars.com/api/?name=' + ${user.name} + '&background=6366f1&color=fff&size=128'"
-alt="avatar">
-
-<span class="hidden sm:block text-sm font-semibold text-gray-800 dark:text-gray-200"
-th:text="${user.name}">
-</span>
-
-<svg class="w-4 h-4 text-gray-500"
-xmlns="http://www.w3.org/2000/svg"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor">
-
-<path stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M19 9l-7 7-7-7"/>
-
-</svg>
-
-</button>
-
-
-<!-- DROPDOWN MENU -->
-<div id="userDropdown"
-class="hidden absolute right-0 mt-3 w-56
-bg-white dark:bg-slate-900
-rounded-xl shadow-lg border
-border-gray-200 dark:border-slate-700
-overflow-hidden">
-
-<div class="px-4 py-3 border-b border-gray-200 dark:border-slate-700">
-
-<p class="text-sm font-semibold text-gray-800 dark:text-white"
-th:text="${user.name}">
-</p>
-
-<p class="text-xs text-gray-500"
-th:text="${user.email}">
-</p>
-
-</div>
-
-<ul class="text-sm">
-
-<li>
-<a th:href="@{/user/user-profile}"
-class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">
-Profile
-</a>
-</li>
-
-<li>
-<a th:href="@{/user/cart}"
-class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">
-My Cart
-</a>
-</li>
-
-<li>
-<a th:href="@{/orders}"
-class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">
-Orders
-</a>
-</li>
-
-</ul>
-
-<div class="border-t border-gray-200 dark:border-slate-700">
-
-<form th:action="@{/logout}" method="post">
-
-<input type="hidden"
-th:name="${_csrf.parameterName}"
-th:value="${_csrf.token}"/>
-
-<button type="submit"
-class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-slate-800">
-
-Logout
-
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- MOBILE MENU BUTTON -->
-<button
-class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800"
-data-collapse-toggle="mobileMenu">
-
-<svg class="w-6 h-6 text-gray-700 dark:text-gray-300"
-xmlns="http://www.w3.org/2000/svg"
-fill="none"
-viewBox="0 0 24 24"
-stroke="currentColor">
-
-<path stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width="2"
-d="M4 6h16M4 12h16M4 18h16"/>
-
-</svg>
-
-</button>
-
-
-</div>
-</div>
-</div>
-
-
-<!-- MOBILE MENU -->
-<div id="mobileMenu"
-class="hidden md:hidden bg-white dark:bg-slate-900 border-t
-border-gray-200 dark:border-slate-700">
-
-<nav class="flex flex-col px-6 py-4 space-y-2 text-sm">
-
-<a th:href="@{/user/dashboard}" class="hover:text-blue-600">
-Dashboard
-</a>
-
-<a th:href="@{/user/products}" class="hover:text-indigo-600">
-Products
-</a>
-
-<a th:href="@{/orders}" class="hover:text-pink-600">
-Orders
-</a>
-
-<a th:href="@{/user/cart}" class="hover:text-indigo-600">
-Cart
-</a>
-
-</nav>
-
-</div>
-
-</header>
-
-
-<script>
-
-/* USER DROPDOWN */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-const toggleBtn = document.querySelector("[data-dropdown-toggle='userDropdown']");
-const dropdown = document.getElementById("userDropdown");
-
-if (toggleBtn && dropdown) {
-
-toggleBtn.addEventListener("click", function (event) {
-event.stopPropagation();
-dropdown.classList.toggle("hidden");
-});
-
-document.addEventListener("click", function (event) {
-if (!dropdown.contains(event.target) && !toggleBtn.contains(event.target)) {
-dropdown.classList.add("hidden");
-}
-});
-
-}
-
-});
-
-
-/* DARK MODE */
-
-const themeToggle = document.getElementById("themeToggle");
-const html = document.documentElement;
-
-/* load saved theme */
-
-if (localStorage.getItem("theme") === "dark") {
-html.classList.add("dark");
-}
-
-themeToggle.addEventListener("click", () => {
-
-html.classList.toggle("dark");
-
-if (html.classList.contains("dark")) {
-localStorage.setItem("theme", "dark");
-} else {
-localStorage.setItem("theme", "light");
-}
-
-});
-
-</script>
-
+M12 8a4 4 0 100 8 4 4 0 000-8z"
+              />
+            </svg>
+          </button>
+
+          <!-- USER DROPDOWN -->
+          <div class="relative">
+            <button
+              class="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition"
+              data-dropdown-toggle="userDropdown"
+            >
+              <img
+                class="w-9 h-9 rounded-full ring-2 ring-indigo-500/40"
+                th:src="'https://ui-avatars.com/api/?name=' + ${user.name} + '&background=6366f1&color=fff&size=128'"
+                alt="avatar"
+              />
+
+              <span
+                class="hidden sm:block text-sm font-semibold text-gray-800 dark:text-gray-200"
+                th:text="${user.name}"
+              >
+              </span>
+
+              <svg
+                class="w-4 h-4 text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- DROPDOWN MENU -->
+            <div
+              id="userDropdown"
+              class="hidden absolute right-0 mt-3 w-56 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden"
+            >
+              <div
+                class="px-4 py-3 border-b border-gray-200 dark:border-slate-700"
+              >
+                <p
+                  class="text-sm font-semibold text-gray-800 dark:text-white"
+                  th:text="${user.name}"
+                ></p>
+
+                <p class="text-xs text-gray-500" th:text="${user.email}"></p>
+              </div>
+
+              <ul class="text-sm">
+                <li>
+                  <a
+                    th:href="@{/user/user-profile}"
+                    class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800"
+                  >
+                    Profile
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    th:href="@{/user/cart}"
+                    class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800"
+                  >
+                    My Cart
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    th:href="@{/orders}"
+                    class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800"
+                  >
+                    Orders
+                  </a>
+                </li>
+              </ul>
+
+              <div class="border-t border-gray-200 dark:border-slate-700">
+                <form th:action="@{/logout}" method="post">
+                  <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"
+                  />
+
+                  <button
+                    type="submit"
+                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-slate-800"
+                  >
+                    Logout
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- MOBILE MENU BUTTON -->
+          <button
+            class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800"
+            data-collapse-toggle="mobileMenu"
+          >
+            <svg
+              class="w-6 h-6 text-gray-700 dark:text-gray-300"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div
+      id="mobileMenu"
+      class="hidden md:hidden bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700"
+    >
+      <nav class="flex flex-col px-6 py-4 space-y-2 text-sm">
+        <a th:href="@{/user/dashboard}" class="hover:text-blue-600">
+          Dashboard
+        </a>
+
+        <a th:href="@{/user/products}" class="hover:text-indigo-600">
+          Products
+        </a>
+
+        <a th:href="@{/orders}" class="hover:text-pink-600"> Orders </a>
+
+        <a th:href="@{/user/cart}" class="hover:text-indigo-600"> Cart </a>
+      </nav>
+    </div>
+  </header>
+
+  <script>
+    /* USER DROPDOWN */
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleBtn = document.querySelector(
+        "[data-dropdown-toggle='userDropdown']",
+      );
+      const dropdown = document.getElementById("userDropdown");
+
+      if (toggleBtn && dropdown) {
+        toggleBtn.addEventListener("click", function (event) {
+          event.stopPropagation();
+          dropdown.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", function (event) {
+          if (
+            !dropdown.contains(event.target) &&
+            !toggleBtn.contains(event.target)
+          ) {
+            dropdown.classList.add("hidden");
+          }
+        });
+      }
+    });
+
+    /* DARK MODE */
+
+    const themeToggle = document.getElementById("themeToggle");
+    const html = document.documentElement;
+
+    /* load saved theme */
+
+    if (localStorage.getItem("theme") === "dark") {
+      html.classList.add("dark");
+    }
+
+    themeToggle.addEventListener("click", () => {
+      html.classList.toggle("dark");
+
+      if (html.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    });
+  </script>
 </div>

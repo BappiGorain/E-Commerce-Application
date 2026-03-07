@@ -16,4 +16,7 @@ public interface ProductRepo extends JpaRepository<Product,Long>
     // Custom finder methods
 
     List<Product> findByCategory(Category category);
+
+    List<Product> findByNameContainingIgnoreCase(String keyword);
+    
 }
