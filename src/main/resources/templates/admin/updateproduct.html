@@ -67,6 +67,7 @@
           th:action="@{/admin/product/updateProduct}"
           th:object="${product}"
           method="post"
+          enctype="multipart/form-data"
           class="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           <!-- HIDDEN ID -->
@@ -162,6 +163,19 @@
             </select>
           </div>
 
+          <!-- DESCRIPTION -->
+
+          <div>
+            <label class="block text-sm font-medium mb-1"> Description </label>
+
+            <input
+              type="text"
+              th:field="*{description}"
+              placeholder="Enter description"
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            />
+          </div>
+
           <!-- MANUFACTURE DATE -->
 
           <div>
@@ -172,6 +186,7 @@
             <input
               type="date"
               th:field="*{manufactureDate}"
+              placeholder="Enter Manufacture Date"
               class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
 
@@ -199,6 +214,19 @@
               Leave blank for non-perishable products.
             </p>
           </div>
+
+
+          <!-- Product Image -->
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium mb-1">Product Image</label>
+              <input type="hidden" th:field="*{image}">
+              <input
+                type="file"
+                name="imageFile"
+                accept="image/*"
+                class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800"
+              />
+            </div>
 
           <!-- BUTTON SECTION -->
 

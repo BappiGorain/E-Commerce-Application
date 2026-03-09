@@ -47,7 +47,7 @@ public class Product
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
-    @Column(name = "image_name")
+    
     private String image;
 
     private String description;

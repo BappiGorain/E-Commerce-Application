@@ -36,7 +36,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(Product product, Long categoryId) {
+    public Product addProduct(Product product, Long categoryId)
+    {
         Category category = categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category Not Found with id :" + categoryId));
         product.setCategory(category);
@@ -56,6 +57,8 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setManufactureDate(product.getManufactureDate());
         existingProduct.setExpirationDate(product.getExpirationDate());
         existingProduct.setUnitLeft(product.getUnitLeft());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setImage(product.getImage());
 
         if (!existingProduct.getCategory().getId().equals(categoryId)) {
             Category category = categoryRepo.findById(categoryId)

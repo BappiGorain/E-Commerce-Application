@@ -70,9 +70,11 @@ public class AdminProductController {
             @RequestParam("categoryId") Long categoryId,
             @RequestParam("imageFile") MultipartFile file) {
 
-        try {
+        try 
+        {
 
-            if (!file.isEmpty()) {
+            if (!file.isEmpty())
+            {
 
                 String uploadDir = "src/main/resources/static/images/products/";
 
@@ -90,8 +92,10 @@ public class AdminProductController {
 
                 product.setImage(fileName);
             }
+        }
 
-        } catch (IOException e) {
+        catch (IOException e) 
+        {
             e.printStackTrace();
         }
 
@@ -117,23 +121,53 @@ public class AdminProductController {
         return "admin/updateproduct";
     }
 
-    @PostMapping("/updateProduct")
-    public String updateProduct(@Valid @ModelAttribute Product product,
-            BindingResult result,
-            @RequestParam Long categoryId,
-            Model model) {
+   @PostMapping("/updateProduct")
+public String updateProduct(@Valid @ModelAttribute Product product,
+                            BindingResult result,
+                            @RequestParam Long categoryId,
+                            Model model,
+                            @RequestParam("imageFile") MultipartFile file) {
 
-        if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.getAllCategories());
-            return "admin/updateproduct";
+    if (result.hasErrors()) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "admin/updateproduct";
+    }
+
+    try {
+
+        if (!file.isEmpty()) 
+        {
+
+            String uploadDir = "src/main/resources/static/images/products/";
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            product.setImage(fileName);
+
+        } else {
+
+            // KEEP OLD IMAGE
+            Product existingProduct = productService.getProductById(product.getId());
+            product.setImage(existingProduct.getImage());
+
         }
 
-        productService.updateProduct(product.getId(), product, categoryId);
-
-        logger.info("Product updated successfully, id: {}", product.getId());
-
-        return "redirect:/admin/product/allProducts";
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+
+    productService.updateProduct(product.getId(), product, categoryId);
+
+    return "redirect:/admin/product/allProducts";
+}
 
     // ================= DELETE PRODUCT =================
 

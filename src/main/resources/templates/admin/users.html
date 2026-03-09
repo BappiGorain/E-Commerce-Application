@@ -1,0 +1,278 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>User Management | Admin</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* animation */
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-up {
+        animation: fadeUp 0.6s ease forwards;
+      }
+
+      /* row hover */
+
+      .table-row {
+        transition: all 0.25s ease;
+      }
+
+      .table-row:hover {
+        transform: scale(1.01);
+        background: rgba(0, 0, 0, 0.02);
+      }
+
+      /* card hover */
+
+      .card-hover {
+        transition: all 0.25s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: white;
+        background: #6366f1;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300"
+  >
+    <!-- NAVBAR -->
+
+    <div th:replace="~{admin/navbar :: adminNavbar}"></div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-28 pb-16 fade-up">
+      <!-- HEADER -->
+
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10 gap-4"
+      >
+        <div>
+          <h1
+            class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+          >
+            User Management
+          </h1>
+
+          <p class="text-gray-500 mt-1">Manage and organize system users</p>
+        </div>
+
+        <!-- SEARCH -->
+
+        <form th:action="@{/admin/user/search}" method="get" class="flex">
+          <input
+            type="text"
+            name="keyword"
+            placeholder="Search users..."
+            class="px-4 py-2 rounded-l-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+          />
+
+          <button
+            class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700 text-sm"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+
+      <!-- DESKTOP TABLE -->
+
+      <div
+        class="hidden md:block bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl overflow-hidden"
+      >
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead
+              class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+            >
+              <tr class="text-left text-xs uppercase">
+                <th class="px-6 py-4">User</th>
+                <th class="px-6 py-4">Email</th>
+                <th class="px-6 py-4">Role</th>
+                <th class="px-6 py-4">Status</th>
+                <th class="px-6 py-4 text-center">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-slate-800">
+              <tr th:each="user : ${users}" class="table-row">
+                <!-- USER -->
+
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="avatar"
+                      th:text="${#strings.substring(user.name,0,1)}"
+                    ></div>
+
+                    <div>
+                      <span class="font-semibold" th:text="${user.name}">
+                      </span>
+
+                      <p class="text-xs text-gray-500">
+                        ID: <span th:text="${user.id}"></span>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- EMAIL -->
+
+                <td
+                  class="px-6 py-4 text-gray-600 dark:text-gray-400"
+                  th:text="${user.email}"
+                ></td>
+
+                <!-- ROLE -->
+
+                <td class="px-6 py-4">
+                  <span
+                    class="px-3 py-1 text-xs bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-full"
+                    th:text="${user.role}"
+                  >
+                  </span>
+                </td>
+
+                <!-- STATUS -->
+
+                <td class="px-6 py-4">
+                  <span
+                    th:if="${user.enabled}"
+                    class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
+                  >
+                    Enabled
+                  </span>
+
+                  <span
+                    th:if="${!user.enabled}"
+                    class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full"
+                  >
+                    Disabled
+                  </span>
+                </td>
+
+                <!-- ACTIONS -->
+
+                <td class="px-6 py-4 text-center">
+                  <div class="flex justify-center gap-3">
+                    <a
+                      th:href="@{/admin/user/updateuser/{id}(id=${user.id})}"
+                      class="px-4 py-2 text-xs font-semibold bg-yellow-400 hover:bg-yellow-500 rounded-lg shadow transition"
+                    >
+                      Edit
+                    </a>
+
+                    <a
+                      th:href="@{/admin/user/deleteuser/{id}(id=${user.id})}"
+                      class="px-4 py-2 text-xs font-semibold bg-red-500 text-white hover:bg-red-600 rounded-lg shadow transition"
+                    >
+                      Delete
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MOBILE CARDS -->
+
+      <div class="grid gap-5 md:hidden">
+        <div
+          th:each="user : ${users}"
+          class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 p-5 card-hover"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="avatar"
+              th:text="${#strings.substring(user.name,0,1)}"
+            ></div>
+
+            <div>
+              <h2 class="font-semibold" th:text="${user.name}"></h2>
+
+              <p class="text-sm text-gray-500" th:text="${user.email}"></p>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span
+              class="px-3 py-1 text-xs bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-full"
+              th:text="${user.role}"
+            >
+            </span>
+
+            <span
+              th:if="${user.enabled}"
+              class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
+            >
+              Enabled
+            </span>
+
+            <span
+              th:if="${!user.enabled}"
+              class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full"
+            >
+              Disabled
+            </span>
+          </div>
+
+          <div class="flex gap-3 mt-4">
+            <a
+              th:href="@{/admin/user/updateuser/{id}(id=${user.id})}"
+              class="flex-1 text-center px-4 py-2 text-sm bg-yellow-400 hover:bg-yellow-500 rounded-lg shadow transition"
+            >
+              Edit
+            </a>
+
+            <a
+              th:href="@{/admin/user/deleteuser/{id}(id=${user.id})}"
+              class="flex-1 text-center px-4 py-2 text-sm bg-red-500 text-white hover:bg-red-600 rounded-lg shadow transition"
+            >
+              Delete
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
