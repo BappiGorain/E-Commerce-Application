@@ -1,5 +1,7 @@
 package com.ecommerce.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import com.ecommerce.service.AddressService;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
+
 @Controller
 @RequestMapping("/address")
 public class AddressController
@@ -28,6 +31,19 @@ public class AddressController
     {
         this.addressService = addressService;
     }
+
+
+    @GetMapping("/showAddress")
+    public String showAddress(Model model)
+    {
+
+        List<Address> allAddress = addressService.getAllAddress();
+        model.addAttribute("addressess", allAddress);
+        
+        
+        logger.info("All addresses are loading");
+        return "user/showaddress";
+    }
     
     @GetMapping("/addAddress")
     public String showAddressPage(Model model)
@@ -38,6 +54,7 @@ public class AddressController
 
         return "user/address";
     }
+    
 
     @PostMapping("/addAddress")
     public String addAddress(@ModelAttribute Address address,Authentication authentication)
@@ -48,7 +65,7 @@ public class AddressController
         
         addressService.addAddress(address,email);
 
-        return "redirect:/user/cart";
+        return "redirect:/address/showAddress";
     }
     
     

@@ -1,5 +1,7 @@
 package com.ecommerce.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.model.Address;
@@ -29,6 +31,12 @@ public class AddressServiceImpl implements AddressService
         address.setUser(user);
         Address savedAddress = addressRepo.save(address);
         return savedAddress;
+    }
+
+    @Override
+    public List<Address> getAllAddress()
+    {
+        return addressRepo.findAll();    
     }
     
 }
