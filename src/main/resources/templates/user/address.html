@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Address</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body
+        {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+<div class="bg-white shadow-lg rounded-xl w-full max-w-3xl p-8">
+
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+        Shipping Address
+    </h2>
+
+    <form th:action="@{/address/addAddress}" method="post" th:object="${address}" class="space-y-4">
+
+        <!-- Phone -->
+        <div>
+            <label class="block text-sm font-medium text-gray-600">Phone Number</label>
+            <input type="tel" th:field="*{phoneNumber}"
+                   class="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Enter phone number" required>
+        </div>
+
+        <!-- Address Line -->
+        <div>
+            <label class="block text-sm font-medium text-gray-600">Address</label>
+            <textarea th:field="*{place}"
+                      class="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      rows="3"
+                      placeholder="House No, Street, Area" required></textarea>
+        </div>
+
+        <!-- City & State -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-600">City</label>
+                <input type="text" th:field="*{city}"
+                       class="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="City" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-600">State</label>
+                <input type="text" th:field="*{state}"
+                       class="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="State" required>
+            </div>
+        </div>
+
+        <!-- Pincode & Country -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Pincode</label>
+                <input type="text" th:field="*{pincode}"
+                       class="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Pincode" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Country</label>
+                <input type="text" th:field="*{country}"
+                       class="w-full mt-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition">
+                Save Address
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
