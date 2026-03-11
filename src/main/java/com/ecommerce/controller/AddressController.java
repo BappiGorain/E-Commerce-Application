@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ecommerce.model.Address;
@@ -16,58 +17,51 @@ import com.ecommerce.service.AddressService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
 @Controller
 @RequestMapping("/address")
-public class AddressController
-{
+public class AddressController {
 
     Logger logger = LoggerFactory.getLogger(AddressController.class);
 
     final private AddressService addressService;
 
-    public AddressController(AddressService addressService)
-    {
+    public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 
-
     @GetMapping("/showAddress")
-    public String showAddress(Model model)
-    {
+    public String showAddress(Model model) {
 
         List<Address> allAddress = addressService.getAllAddress();
         model.addAttribute("addressess", allAddress);
-        
-        
+
         logger.info("All addresses are loading");
         return "user/showaddress";
     }
-    
+
     @GetMapping("/addAddress")
-    public String showAddressPage(Model model)
-    {
+    public String showAddressPage(Model model) {
         logger.info("Loading address page");
 
         model.addAttribute("address", new Address());
 
         return "user/address";
     }
-    
 
     @PostMapping("/addAddress")
-    public String addAddress(@ModelAttribute Address address,Authentication authentication)
-    {
-
+    public String addAddress(@ModelAttribute Address address, Authentication authentication) {
 
         String email = authentication.getName();
-        
-        addressService.addAddress(address,email);
+
+        addressService.addAddress(address, email);
 
         return "redirect:/address/showAddress";
     }
-    
-    
-    
+
+    @PostMapping("/delete/{id}")
+    public String deleteAddress(@PathVariable Long id) {
+        addressService.deleteAddress(id);
+        return "redirect:/address/showAddress";
+    }
+
 }

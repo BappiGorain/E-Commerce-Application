@@ -38,5 +38,11 @@ public class AddressServiceImpl implements AddressService
     {
         return addressRepo.findAll();    
     }
+
+    @Override
+    public void deleteAddress(Long id)
+    {
+        addressRepo.deleteById(id);
+    }
     
 }
