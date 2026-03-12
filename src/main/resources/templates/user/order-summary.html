@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Order Summary</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded shadow">
+      <h1 class="text-3xl font-bold mb-6">Order Summary</h1>
+
+      <!-- ADDRESS SECTION -->
+
+      <div class="mb-8 border p-4 rounded bg-gray-50">
+        <h2 class="text-xl font-semibold mb-3">Delivery Address</h2>
+
+        <p th:text="${address.street}"></p>
+        <p>
+          <span th:text="${address.city}"></span>,
+          <span th:text="${address.state}"></span>
+        </p>
+        <p>
+          <span th:text="${address.country}"></span> -
+          <span th:text="${address.pincode}"></span>
+        </p>
+
+        <p class="mt-2">
+          Phone : <span th:text="${address.phoneNumber}"></span>
+        </p>
+      </div>
+
+      <!-- PRODUCT LIST -->
+
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Items</h2>
+
+        <table class="w-full border">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-3 text-left">Product</th>
+              <th class="p-3 text-left">Price</th>
+              <th class="p-3 text-left">Quantity</th>
+              <th class="p-3 text-left">Total</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="item : ${cartItems}" class="border-t">
+              <td class="p-3" th:text="${item.product.name}"></td>
+
+              <td class="p-3">
+                ₹ <span th:text="${item.product.price}"></span>
+              </td>
+
+              <td class="p-3" th:text="${item.quantity}"></td>
+
+              <td class="p-3">
+                ₹ <span th:text="${item.product.price * item.quantity}"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TOTAL PRICE -->
+
+      <div class="text-right mb-6">
+        <h2 class="text-2xl font-bold">
+          Total : ₹ <span th:text="${totalPrice}"></span>
+        </h2>
+      </div>
+
+      <!-- PLACE ORDER BUTTON -->
+
+      <div class="text-right">
+        <form th:action="@{/order/place}" method="post">
+          <input type="hidden" name="addressId" th:value="${address.id}" />
+
+          <button
+            class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
+          >
+            Place Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
