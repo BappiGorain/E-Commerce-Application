@@ -133,6 +133,7 @@
               class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
             >
               <tr class="text-left text-xs uppercase">
+                <th class="px-6 py-4">Image</th>
                 <th class="px-6 py-4">Product</th>
                 <th class="px-6 py-4">Price</th>
                 <th class="px-6 py-4">Brand</th>
@@ -145,6 +146,14 @@
 
             <tbody class="divide-y divide-gray-200 dark:divide-slate-800">
               <tr th:each="product : ${products}" class="table-row">
+
+                <td class="px-6 py-4 font-semibold text-green-600">
+                <img
+                      th:src="@{'/images/products/' + ${product.image}}"
+                      class="w-14 h-14 rounded-lg object-cover border border-gray-200 product-img"
+                    />
+                </td>
+                
                 <td class="px-6 py-4 font-semibold">
                   <span th:text="${product.name}"></span>
                 </td>

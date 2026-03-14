@@ -28,7 +28,7 @@ public class UserController
     @Autowired
     private ProductService productService;
     
-    private final UserRepository userRepository;  
+    private final UserRepository userRepository;
     private final ProductRepo productRepo;
     
     public UserController(UserRepository userRepository,ProductRepo productRepo)
