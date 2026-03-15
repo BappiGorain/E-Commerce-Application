@@ -2,5 +2,5 @@ package com.ecommerce.service;
 
 public interface  OrderService
 {
-    public void orderSummary(Long userId,Long addressId);
+    public void getOrderSummary(Long userId,Long addressId);
 }

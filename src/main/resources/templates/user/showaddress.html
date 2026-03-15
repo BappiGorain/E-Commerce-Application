@@ -41,7 +41,6 @@
                 class="mt-2 accent-indigo-600"
                 required
               />
-              
 
               <div>
                 <p class="font-semibold text-lg" th:text="${address.place}"></p>
@@ -55,22 +54,23 @@
 
                 <p class="text-gray-600" th:text="${address.country}"></p>
 
-                
                 <p
                   class="text-gray-700 font-medium mt-1"
                   th:text="'Phone: ' + ${address.phoneNumber}"
                 ></p>
                 <div class="flex justify-end mt-3">
-
-<form th:action="@{/address/delete/{id}(id=${address.id})}" method="post">
-<button type="submit"
-class="text-red-600 text-sm hover:underline">
-Delete
-</button>
-
-</form>
-
-</div>
+                  <form
+                    th:action="@{/address/delete/{id}(id=${address.id})}"
+                    method="post"
+                  >
+                    <button
+                      type="submit"
+                      class="text-red-600 text-sm hover:underline"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </div>
               </div>
             </label>
           </div>
@@ -85,12 +85,14 @@ Delete
             + Add New Address
           </a>
 
-          <button
-            type="submit"
-            class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition"
+          <a 
+            th:href="@{/address/ordersummary}"
+            class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition inline-block"
           >
-            Proceed to Payment
-          </button>
+            order summary
+          </a>
+
+
         </div>
       </form>
     </div>

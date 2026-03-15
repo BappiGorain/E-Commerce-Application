@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Address;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.AddressRepo;
@@ -33,6 +34,8 @@ public class AddressServiceImpl implements AddressService
         return savedAddress;
     }
 
+    
+
     @Override
     public List<Address> getAllAddress()
     {
@@ -43,6 +46,14 @@ public class AddressServiceImpl implements AddressService
     public void deleteAddress(Long id)
     {
         addressRepo.deleteById(id);
+    }
+
+    @Override
+    public Address getAddressById(Long addressId)
+    {
+        Address address = addressRepo.findById(addressId).orElseThrow(()->new ResourceNotFoundException("Address Not found with id " + addressId));
+
+        return address;
     }
     
 }

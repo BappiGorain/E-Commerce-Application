@@ -32,7 +32,7 @@ public class Order
     @ManyToOne
     private Address address;
 
-    private Double toralPrice;
+    private Double totalPrice;
 
     @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
     private List<OrderItem> items;

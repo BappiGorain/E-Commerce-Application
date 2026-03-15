@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Address;
+import com.ecommerce.repository.AddressRepo;
 import com.ecommerce.service.AddressService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/address")
@@ -23,10 +27,14 @@ public class AddressController {
 
     Logger logger = LoggerFactory.getLogger(AddressController.class);
 
-    final private AddressService addressService;
+    private final AddressService addressService;
 
-    public AddressController(AddressService addressService) {
+
+
+    public AddressController(AddressService addressService)
+    {
         this.addressService = addressService;
+        
     }
 
     @GetMapping("/showAddress")
@@ -63,5 +71,20 @@ public class AddressController {
         addressService.deleteAddress(id);
         return "redirect:/address/showAddress";
     }
+
+    @GetMapping("/ordersummary")
+    public String orderSummary(Long addressId)
+    {
+
+        Address address = addressService.getAddressById(addressId);
+
+        
+        
+       
+        logger.info("order summary loaded");
+        
+        return "/user/order-summary";
+    }
+    
 
 }

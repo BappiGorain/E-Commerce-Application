@@ -9,4 +9,5 @@ public interface AddressService
     public Address addAddress(Address address,String email);
     public List<Address> getAllAddress();
     public void deleteAddress(Long id);
+    public Address getAddressById(Long addressId);
 }
