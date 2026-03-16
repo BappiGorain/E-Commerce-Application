@@ -28,6 +28,23 @@ public class OrderServiceImpl implements OrderService
     @Override
     public void getOrderSummary(Long userId, Long addressId)
     {
+        var user = userRepo.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + userId));
+
+    // Fetch Address
+    Address address = addressRepo.findById(addressId)
+            .orElseThrow(() -> new ResourceNotFoundException("Address not found with id : " + addressId));
+
+    // Validate address belongs to user
+    if (!address.getUser().getId().equals(user.getId()))
+    {
+        throw new RuntimeException("Address does not belong to this user");
+    }
+
+    // Later this method will:
+    // 1. Fetch Cart
+    // 2. Calculate total price
+    // 3. Create Order Summary
         
 
     }
