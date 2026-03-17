@@ -1,6 +1,8 @@
 package com.ecommerce.service;
 
+import com.ecommerce.dto.OrderSummaryDTO;
+
 public interface  OrderService
 {
-    public void getOrderSummary(Long userId,Long addressId);
+    public OrderSummaryDTO getOrderSummary(Long userId, Long addressId);
 }

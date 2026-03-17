@@ -1,92 +1,195 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Order Summary</title>
+  <title>Order Summary</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <body class="bg-gray-100">
-    <div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h1 class="text-3xl font-bold mb-6">Order Summary</h1>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 
-      <!-- ADDRESS SECTION -->
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+    }
 
-      <div class="mb-8 border p-4 rounded bg-gray-50">
-        <h2 class="text-xl font-semibold mb-3">Delivery Address</h2>
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        <p th:text="${address.street}"></p>
-        <p>
-          <span th:text="${address.city}"></span>,
-          <span th:text="${address.state}"></span>
-        </p>
-        <p>
-          <span th:text="${address.country}"></span> -
-          <span th:text="${address.pincode}"></span>
-        </p>
+    .fade-up {
+      animation: fadeUp 0.6s ease forwards;
+    }
+  </style>
+</head>
 
-        <p class="mt-2">
-          Phone : <span th:text="${address.phoneNumber}"></span>
-        </p>
-      </div>
+<body
+  class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300"
+>
 
-      <!-- PRODUCT LIST -->
+<!-- MAIN CONTAINER -->
 
-      <div class="mb-8">
-        <h2 class="text-xl font-semibold mb-4">Items</h2>
+<div class="max-w-6xl mx-auto px-6 pt-28 pb-16 fade-up">
 
-        <table class="w-full border">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="p-3 text-left">Product</th>
-              <th class="p-3 text-left">Price</th>
-              <th class="p-3 text-left">Quantity</th>
-              <th class="p-3 text-left">Total</th>
-            </tr>
-          </thead>
+  <!-- PAGE TITLE -->
 
-          <tbody>
-            <tr th:each="item : ${cartItems}" class="border-t">
-              <td class="p-3" th:text="${item.product.name}"></td>
+  <div class="mb-10">
+    <h1
+      class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+    >
+      Order Summary
+    </h1>
 
-              <td class="p-3">
-                ₹ <span th:text="${item.product.price}"></span>
-              </td>
+    <p class="text-gray-500 mt-2">
+      Review your order details before placing it.
+    </p>
+  </div>
 
-              <td class="p-3" th:text="${item.quantity}"></td>
+  <!-- ADDRESS CARD -->
 
-              <td class="p-3">
-                ₹ <span th:text="${item.product.price * item.quantity}"></span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div
+    class="mb-10 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl p-6"
+  >
+    <h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
+      Delivery Address
+    </h2>
 
-      <!-- TOTAL PRICE -->
+    <div th:if="${address != null}" class="space-y-1 text-gray-600 dark:text-gray-300">
 
-      <div class="text-right mb-6">
-        <h2 class="text-2xl font-bold">
-          Total : ₹ <span th:text="${totalPrice}"></span>
-        </h2>
-      </div>
+        <p class="font-extrabold">
+        <span th:text="${address.name}"></span>
+      </p>
 
-      <!-- PLACE ORDER BUTTON -->
+      <p>
+        <span th:text="${address.city}"></span>,
+        <span th:text="${address.state}"></span>
+      </p>
 
-      <div class="text-right">
-        <form th:action="@{/order/place}" method="post">
-          <input type="hidden" name="addressId" th:value="${address.id}" />
+      <p>
+        <span th:text="${address.country}"></span> -
+        <span th:text="${address.pincode}"></span>
+      </p>
 
-          <button
-            class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
-          >
-            Place Order
-          </button>
-        </form>
-      </div>
+      <p class="pt-1">
+        Phone :
+        <span class="font-medium" th:text="${address.phoneNumber}"></span>
+      </p>
+
     </div>
-  </body>
+
+  </div>
+
+  <!-- ITEMS CARD -->
+
+  <div
+    class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl overflow-hidden"
+  >
+
+    <div class="p-6 border-b border-gray-200 dark:border-slate-800">
+      <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+        Items
+      </h2>
+    </div>
+
+    <div class="overflow-x-auto">
+
+      <table class="w-full text-sm">
+
+        <thead
+          class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-left"
+        >
+          <tr>
+            <th class="px-6 py-4">Product</th>
+            <th class="px-6 py-4">Price</th>
+            <th class="px-6 py-4">Quantity</th>
+            <th class="px-6 py-4">Subtotal</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200 dark:divide-slate-800">
+
+          <tr th:each="item : ${cartItems}" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition">
+
+            <td class="px-6 py-4 font-medium" th:text="${item.product.name}"></td>
+
+            <td class="px-6 py-4">
+              ₹ <span th:text="${item.product.price}"></span>
+            </td>
+
+            <td class="px-6 py-4" th:text="${item.quantity}"></td>
+
+            <td class="px-6 py-4 font-semibold">
+              ₹ <span th:text="${item.product.price * item.quantity}"></span>
+            </td>
+
+          </tr>
+
+          <!-- EMPTY CART -->
+
+          <tr th:if="${#lists.isEmpty(cartItems)}">
+            <td colspan="4" class="text-center py-10 text-gray-500">
+              Your cart is empty
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- TOTAL + ACTIONS -->
+
+  <div
+    class="mt-8 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+  >
+
+    <a
+      href="/user/cart"
+      class="px-6 py-2.5 rounded-lg bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 transition text-gray-700 dark:text-gray-300"
+    >
+      ← Back to Cart
+    </a>
+
+    <h2 class="text-2xl font-bold">
+      Total : ₹ <span th:text="${totalPrice}"></span>
+    </h2>
+
+  </div>
+
+  <!-- PLACE ORDER -->
+
+  <div class="flex justify-end mt-6">
+
+    <form th:action="@{/order/place}" method="post">
+
+      <input type="hidden" name="addressId" th:value="${address.id}" />
+
+      <button
+        class="px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 hover:scale-[1.02] shadow-lg transition"
+      >
+        Place Order
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+</body>
 </html>
