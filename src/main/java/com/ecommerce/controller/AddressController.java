@@ -31,7 +31,8 @@ public class AddressController {
     private final OrderService orderService;
     private final UserService userService;
 
-    public AddressController(AddressService addressService, OrderService orderService, UserService userService) {
+    public AddressController(AddressService addressService, OrderService orderService, UserService userService)
+    {
         this.addressService = addressService;
         this.orderService = orderService;
         this.userService = userService;
@@ -39,9 +40,12 @@ public class AddressController {
     }
 
     @GetMapping("/showAddress")
-    public String showAddress(Model model) {
+    public String showAddress(Model model,Authentication authentication)
+    {
 
-        List<Address> allAddress = addressService.getAllAddress();
+        String email = authentication.getName();
+
+        List<Address> allAddress = addressService.getAllAddressFromEmail(email);
         model.addAttribute("addresses", allAddress);
 
         logger.info("All addresses are loading");

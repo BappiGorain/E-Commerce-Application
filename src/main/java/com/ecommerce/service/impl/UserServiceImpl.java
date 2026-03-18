@@ -1,10 +1,12 @@
 package com.ecommerce.service.impl;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Address;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.AddressRepo;
@@ -49,6 +51,16 @@ public class UserServiceImpl implements UserService
         
     }
 
+    @Override
+public Long getUserId(Principal principal) {
+
+    String email = principal.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+    return user.getId();
+}
    
     
 }

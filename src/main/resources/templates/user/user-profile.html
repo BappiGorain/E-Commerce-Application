@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>User Profile | ShopSmart</title>
+<title>User Dashboard | ShopSmart</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -18,25 +18,25 @@ body{
 font-family:'Inter',sans-serif;
 }
 
-/* Fade animation */
+/* fade animation */
 
 @keyframes fadeUp{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
 }
 
 .fade-up{
-animation:fadeUp .6s ease forwards;
+animation:fadeUp .7s ease forwards;
 }
 
-/* Card hover */
+/* hover card */
 
-.card-hover{
+.card{
 transition:all .25s ease;
 }
 
-.card-hover:hover{
-transform:translateY(-5px);
+.card:hover{
+transform:translateY(-6px);
 box-shadow:0 20px 40px rgba(0,0,0,.08);
 }
 
@@ -45,20 +45,22 @@ box-shadow:0 20px 40px rgba(0,0,0,.08);
 </head>
 
 
-<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200">
 
 <!-- NAVBAR -->
-<div th:replace="~{navbar :: navbar}"></div>
 
+<div th:replace="~{navbar :: navbar}"></div>
 
 
 <div class="max-w-7xl mx-auto px-6 pt-28 pb-16 fade-up">
 
-<h1 class="text-3xl md:text-4xl font-bold mb-10
+<!-- PAGE TITLE -->
+
+<h1 class="text-4xl font-bold mb-10
 bg-gradient-to-r from-indigo-600 to-purple-600
 text-transparent bg-clip-text">
 
-User Profile
+User Dashboard
 
 </h1>
 
@@ -66,16 +68,13 @@ User Profile
 
 <div class="grid grid-cols-12 gap-8">
 
-
-<!-- PROFILE CARD -->
+<!-- LEFT PROFILE CARD -->
 
 <div class="col-span-12 md:col-span-4">
 
 <div class="bg-white dark:bg-slate-900
-rounded-2xl
-border border-gray-200 dark:border-slate-800
-shadow-xl
-p-8 text-center card-hover">
+rounded-2xl border border-gray-200 dark:border-slate-800
+shadow-xl p-8 text-center card">
 
 
 <img
@@ -93,49 +92,170 @@ th:text="${user.email}">
 </p>
 
 
-<div class="mt-4">
+<span
+class="inline-block mt-3
+bg-indigo-100 dark:bg-indigo-900
+text-indigo-700 dark:text-indigo-300
+px-4 py-1 rounded-full text-sm font-semibold"
+th:text="${user.role}">
+</span>
+
+
+<a
+href="/user/orders"
+class="mt-6 block bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+
+View Orders
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- RIGHT SIDE CONTENT -->
+
+<div class="col-span-12 md:col-span-8 space-y-8">
+
+
+<!-- STATS -->
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+<div class="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-6 rounded-2xl shadow-lg card">
+
+<p class="text-sm opacity-80">
+Total Orders
+</p>
+
+<p class="text-3xl font-bold mt-2"
+th:text="${orderCount}">
+</p>
+
+</div>
+
+
+
+<div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-2xl shadow-lg card">
+
+<p class="text-sm opacity-80">
+Products Ordered
+</p>
+
+<p class="text-3xl font-bold mt-2"
+th:text="${productCount}">
+</p>
+
+</div>
+
+
+
+<div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white p-6 rounded-2xl shadow-lg card">
+
+<p class="text-sm opacity-80">
+Available Products
+</p>
+
+<p class="text-3xl font-bold mt-2">
+
+5000+
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- RECENT ORDERS -->
+
+<div class="bg-white dark:bg-slate-900
+rounded-2xl border border-gray-200 dark:border-slate-800
+shadow-xl p-8">
+
+<h2 class="text-lg font-semibold mb-6">
+
+Recent Orders
+
+</h2>
+
+
+<div th:if="${#lists.isEmpty(orders)}">
+
+<p class="text-gray-500">
+
+No orders yet.
+
+</p>
+
+</div>
+
+
+<div class="space-y-4">
+
+
+<div
+th:each="order : ${orders}"
+class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-4 card">
+
+
+<div>
+
+<p class="font-semibold">
+
+Order #<span th:text="${order.id}"></span>
+
+</p>
+
+<p class="text-sm text-gray-500"
+th:text="${#temporals.format(order.createdAt,'dd MMM yyyy')}">
+</p>
+
+</div>
+
+
+<div>
 
 <span
-class="bg-indigo-100 dark:bg-indigo-900
-text-indigo-700 dark:text-indigo-300
-px-3 py-1 rounded-full text-sm font-medium"
-th:text="${user.role}">
+class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700"
+th:text="${order.status}">
 </span>
 
 </div>
 
 
-<button
-class="mt-6 w-full
-bg-indigo-600 text-white
-py-2 rounded-lg
-hover:bg-indigo-700
-hover:scale-[1.02]
-transition shadow">
+<div class="font-semibold text-indigo-600">
 
-Edit Profile
+₹ <span th:text="${order.totalPrice}"></span>
 
-</button>
+</div>
 
 </div>
 
 </div>
 
 
+<a
+href="/user/orders"
+class="inline-block mt-6 text-indigo-600 hover:underline">
 
-<!-- DETAILS SECTION -->
+View All Orders →
 
-<div class="col-span-12 md:col-span-8 space-y-8">
+</a>
 
 
-<!-- ACCOUNT INFORMATION -->
+</div>
+
+
+
+<!-- ACCOUNT DETAILS -->
 
 <div class="bg-white dark:bg-slate-900
-rounded-2xl
-border border-gray-200 dark:border-slate-800
-shadow-xl
-p-8">
-
+rounded-2xl border border-gray-200 dark:border-slate-800
+shadow-xl p-8">
 
 <h2 class="text-lg font-semibold mb-6">
 
@@ -149,7 +269,9 @@ Account Information
 
 <div>
 
-<p class="text-sm text-gray-500">Full Name</p>
+<p class="text-sm text-gray-500">
+Full Name
+</p>
 
 <p class="font-semibold"
 th:text="${user.name}">
@@ -160,7 +282,9 @@ th:text="${user.name}">
 
 <div>
 
-<p class="text-sm text-gray-500">Email</p>
+<p class="text-sm text-gray-500">
+Email
+</p>
 
 <p class="font-semibold"
 th:text="${user.email}">
@@ -171,7 +295,9 @@ th:text="${user.email}">
 
 <div>
 
-<p class="text-sm text-gray-500">Role</p>
+<p class="text-sm text-gray-500">
+Role
+</p>
 
 <p class="font-semibold"
 th:text="${user.role}">
@@ -182,12 +308,12 @@ th:text="${user.role}">
 
 <div>
 
-<p class="text-sm text-gray-500">Joined Date</p>
+<p class="text-sm text-gray-500">
+Joined
+</p>
 
 <p class="font-semibold text-gray-400">
-
 Not Available
-
 </p>
 
 </div>
@@ -198,91 +324,12 @@ Not Available
 </div>
 
 
-
-<!-- STATS CARDS -->
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-
-<!-- ORDERS -->
-
-<div
-class="bg-gradient-to-r from-indigo-500 to-indigo-600
-text-white
-p-6 rounded-2xl shadow-lg card-hover">
-
-<p class="text-sm opacity-80">
-
-Total Orders
-
-</p>
-
-<p class="text-3xl font-bold mt-2">
-
-0
-
-</p>
-
 </div>
-
-
-
-<!-- PRODUCTS ORDERED -->
-
-<div
-class="bg-gradient-to-r from-purple-500 to-purple-600
-text-white
-p-6 rounded-2xl shadow-lg card-hover">
-
-<p class="text-sm opacity-80">
-
-Products Ordered
-
-</p>
-
-<p class="text-3xl font-bold mt-2">
-
-0
-
-</p>
-
-</div>
-
-
-
-<!-- PRODUCTS AVAILABLE -->
-
-<div
-class="bg-gradient-to-r from-pink-500 to-rose-500
-text-white
-p-6 rounded-2xl shadow-lg card-hover">
-
-<p class="text-sm opacity-80">
-
-Available Products
-
-</p>
-
-<p class="text-3xl font-bold mt-2">
-
-5000+
-
-</p>
 
 </div>
 
 
 </div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
 
 </body>
 </html>

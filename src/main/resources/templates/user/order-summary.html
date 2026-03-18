@@ -1,195 +1,161 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Order Summary</title>
+    <title>Order Summary</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <style>
-    body {
-      font-family: "Inter", sans-serif;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    </style>
+  </head>
 
-    .fade-up {
-      animation: fadeUp 0.6s ease forwards;
-    }
-  </style>
-</head>
+  <body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200">
+    <div class="max-w-6xl mx-auto px-6 pt-28 pb-16">
+      <!-- TITLE -->
 
-<body
-  class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200 transition-colors duration-300"
->
-
-<!-- MAIN CONTAINER -->
-
-<div class="max-w-6xl mx-auto px-6 pt-28 pb-16 fade-up">
-
-  <!-- PAGE TITLE -->
-
-  <div class="mb-10">
-    <h1
-      class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
-    >
-      Order Summary
-    </h1>
-
-    <p class="text-gray-500 mt-2">
-      Review your order details before placing it.
-    </p>
-  </div>
-
-  <!-- ADDRESS CARD -->
-
-  <div
-    class="mb-10 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl p-6"
-  >
-    <h2 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
-      Delivery Address
-    </h2>
-
-    <div th:if="${address != null}" class="space-y-1 text-gray-600 dark:text-gray-300">
-
-        <p class="font-extrabold">
-        <span th:text="${address.name}"></span>
-      </p>
-
-      <p>
-        <span th:text="${address.city}"></span>,
-        <span th:text="${address.state}"></span>
-      </p>
-
-      <p>
-        <span th:text="${address.country}"></span> -
-        <span th:text="${address.pincode}"></span>
-      </p>
-
-      <p class="pt-1">
-        Phone :
-        <span class="font-medium" th:text="${address.phoneNumber}"></span>
-      </p>
-
-    </div>
-
-  </div>
-
-  <!-- ITEMS CARD -->
-
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl overflow-hidden"
-  >
-
-    <div class="p-6 border-b border-gray-200 dark:border-slate-800">
-      <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
-        Items
-      </h2>
-    </div>
-
-    <div class="overflow-x-auto">
-
-      <table class="w-full text-sm">
-
-        <thead
-          class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-left"
+      <div class="mb-10">
+        <h1
+          class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
         >
-          <tr>
-            <th class="px-6 py-4">Product</th>
-            <th class="px-6 py-4">Price</th>
-            <th class="px-6 py-4">Quantity</th>
-            <th class="px-6 py-4">Subtotal</th>
-          </tr>
-        </thead>
+          Order Summary
+        </h1>
 
-        <tbody class="divide-y divide-gray-200 dark:divide-slate-800">
+        <p class="text-gray-500 mt-2">Review your order before placing it</p>
+      </div>
 
-          <tr th:each="item : ${cartItems}" class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition">
+      <!-- ADDRESS -->
 
-            <td class="px-6 py-4 font-medium" th:text="${item.product.name}"></td>
+      <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6 mb-10">
+        <h2 class="text-lg font-semibold mb-4">Delivery Address</h2>
 
-            <td class="px-6 py-4">
+        <div
+          th:if="${address!=null}"
+          class="text-gray-600 dark:text-gray-300 space-y-1"
+        >
+          <p class="font-semibold" th:text="${address.name}"></p>
+
+          <p>
+            <span th:text="${address.city}"></span>,
+            <span th:text="${address.state}"></span>
+          </p>
+
+          <p>
+            <span th:text="${address.country}"></span> -
+            <span th:text="${address.pincode}"></span>
+          </p>
+
+          <p>
+            Phone :
+            <span th:text="${address.phoneNumber}"></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- ITEMS -->
+
+      <div class="space-y-6">
+        <div
+          th:each="item : ${cartItems}"
+          class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6 flex gap-6 items-center"
+        >
+          <!-- IMAGE -->
+
+          <img
+            th:src="@{'/images/products/' + ${item.product.image}}"
+            class="w-24 h-24 object-cover rounded-lg border"
+          />
+
+          <!-- PRODUCT INFO -->
+
+          <div class="flex-1">
+            <h3
+              class="font-semibold text-lg"
+              th:text="${item.product.name}"
+            ></h3>
+
+            <p class="text-sm text-gray-500">
+              Brand :
+              <span th:text="${item.product.brand}"></span>
+            </p>
+          </div>
+
+          <!-- PRICE -->
+
+          <div class="text-center">
+            <p class="text-gray-500 text-sm">Price</p>
+
+            <p class="font-semibold">
               ₹ <span th:text="${item.product.price}"></span>
-            </td>
+            </p>
+          </div>
 
-            <td class="px-6 py-4" th:text="${item.quantity}"></td>
+          <!-- QUANTITY -->
 
-            <td class="px-6 py-4 font-semibold">
+          <div class="text-center">
+            <p class="text-gray-500 text-sm">Qty</p>
+
+            <p class="font-semibold" th:text="${item.quantity}"></p>
+          </div>
+
+          <!-- SUBTOTAL -->
+
+          <div class="text-center">
+            <p class="text-gray-500 text-sm">Subtotal</p>
+
+            <p class="font-semibold text-indigo-600">
               ₹ <span th:text="${item.product.price * item.quantity}"></span>
-            </td>
+            </p>
+          </div>
+        </div>
+      </div>
 
-          </tr>
+      <!-- TOTAL -->
 
-          <!-- EMPTY CART -->
-
-          <tr th:if="${#lists.isEmpty(cartItems)}">
-            <td colspan="4" class="text-center py-10 text-gray-500">
-              Your cart is empty
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-  <!-- TOTAL + ACTIONS -->
-
-  <div
-    class="mt-8 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-  >
-
-    <a
-      href="/user/cart"
-      class="px-6 py-2.5 rounded-lg bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 transition text-gray-700 dark:text-gray-300"
-    >
-      ← Back to Cart
-    </a>
-
-    <h2 class="text-2xl font-bold">
-      Total : ₹ <span th:text="${totalPrice}"></span>
-    </h2>
-
-  </div>
-
-  <!-- PLACE ORDER -->
-
-  <div class="flex justify-end mt-6">
-
-    <form th:action="@{/order/place}" method="post">
-
-      <input type="hidden" name="addressId" th:value="${address.id}" />
-
-      <button
-        class="px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 hover:scale-[1.02] shadow-lg transition"
+      <div
+        class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6 mt-10 flex justify-between items-center"
       >
-        Place Order
-      </button>
+        <a
+          href="/user/cart"
+          class="px-5 py-2 rounded-lg bg-gray-200 dark:bg-slate-800 hover:bg-gray-300"
+        >
+          ← Back to Cart
+        </a>
 
-    </form>
+        <h2 class="text-2xl font-bold">
+          Total : ₹ <span th:text="${totalPrice}"></span>
+        </h2>
+      </div>
 
-  </div>
+      <!-- PLACE ORDER -->
 
-</div>
+      <div class="flex justify-end mt-8">
+        <form th:action="@{/place-order}" method="post">
+          <input type="hidden" name="addressId" th:value="${address.id}" />
 
-</body>
+          <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}"
+          />
+
+          <button
+            class="px-8 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 shadow-lg"
+          >
+            Place Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

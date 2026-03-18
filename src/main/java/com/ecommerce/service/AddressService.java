@@ -10,4 +10,5 @@ public interface AddressService
     public List<Address> getAllAddress();
     public void deleteAddress(Long id);
     public Address getAddressById(Long addressId);
+    public List<Address> getAllAddressFromEmail(String email);
 }

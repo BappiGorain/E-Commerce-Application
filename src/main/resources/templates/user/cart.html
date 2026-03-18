@@ -80,9 +80,10 @@
 
               <div class="flex items-center gap-4">
                 <!-- Product image placeholder -->
-                <div
-                  class="w-16 h-16 bg-gray-200 dark:bg-slate-800 rounded-lg"
-                ></div>
+                <img
+  th:src="@{'/images/products/' + ${item.product.image}}"
+  class="w-16 h-16 object-cover rounded-lg"
+/>
 
                 <div>
                   <p

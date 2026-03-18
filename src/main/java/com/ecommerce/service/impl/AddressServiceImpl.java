@@ -55,5 +55,11 @@ public class AddressServiceImpl implements AddressService
 
         return address;
     }
+
+    @Override
+    public List<Address> getAllAddressFromEmail(String email) 
+    {
+        return addressRepo.findByUserEmail(email); 
+    }
     
 }
