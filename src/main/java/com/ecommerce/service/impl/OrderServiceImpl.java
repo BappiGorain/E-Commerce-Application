@@ -3,6 +3,8 @@ package com.ecommerce.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.dto.OrderSummaryDTO;
@@ -12,6 +14,7 @@ import com.ecommerce.model.Address;
 import com.ecommerce.model.CartItem;
 import com.ecommerce.model.Order;
 import com.ecommerce.model.OrderItem;
+import com.ecommerce.model.User;
 import com.ecommerce.repository.AddressRepo;
 import com.ecommerce.repository.CartItemRepo;
 import com.ecommerce.repository.OrderItemRepo;
@@ -126,5 +129,23 @@ public class OrderServiceImpl implements OrderService {
     {
 
         return orderRepo.findByUserId(userId);
+    }
+
+    @Override
+    @Transactional
+    public void cancelOrder(Long orderId,Long userId)
+    {
+
+        User user = userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("user not found with id " + userId));
+
+        Order order = orderRepo.findById(orderId).orElseThrow(()->new ResourceNotFoundException("Order not found with id " + orderId));
+
+        if(order.getStatus() != OrderStatus.CREATED)
+        {
+            throw new RuntimeException("Order cannot be cancelled");
+        }
+        
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepo.save(order);
     }
 }

@@ -7,7 +7,8 @@ import com.ecommerce.model.Order;
 
 public interface  OrderService
 {
-    public OrderSummaryDTO getOrderSummary(Long userId, Long addressId);
-    public Order placeOrder(Long userId, Long addressId);
+    OrderSummaryDTO getOrderSummary(Long userId, Long addressId);
+    Order placeOrder(Long userId, Long addressId);
     List<Order> getUserOrders(Long userId);
+    void cancelOrder(Long orderId,Long userId);
 }

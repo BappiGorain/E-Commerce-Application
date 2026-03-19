@@ -3,9 +3,11 @@ package com.ecommerce.controller;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -42,14 +44,24 @@ public class OrderController {
     public String getUserOrders(Model model, Principal principal)
     {
 
-    Long userId = userService.getUserId(principal);
+        Long userId = userService.getUserId(principal);
 
-    List<Order> orders = orderService.getUserOrders(userId);
+        List<Order> orders = orderService.getUserOrders(userId);
 
-    model.addAttribute("orders", orders);
+        model.addAttribute("orders", orders);
 
-    return "user/orders";
-}
+        return "user/orders";
+    }
+
+    @PostMapping("/user/orders/{orderId}/cancel")
+    public String cancelOrder(@PathVariable Long orderId,Principal principal)
+    {
+        Long userId = userService.getUserId(principal);
+
+        orderService.cancelOrder(orderId, userId);
+
+        return "redirect:/user/orders";
+    }
     
     
     

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ResourceNotFoundException;
-import com.ecommerce.model.Address;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.AddressRepo;
 import com.ecommerce.repository.UserRepository;
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<User> getAllUser()
     {
-        return userRepository.findAll();    
+        return userRepository.findAll();
     }
 
     @Override

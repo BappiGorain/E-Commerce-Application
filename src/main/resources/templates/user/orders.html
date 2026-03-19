@@ -1,176 +1,254 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>My Orders</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<title>My Orders</title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-    </style>
-  </head>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200">
-    <!-- NAVBAR -->
-    <div th:replace="~{navbar :: navbar}"></div>
+<style>
+body {
+font-family: "Inter", sans-serif;
+}
+</style>
 
-    <div class="max-w-7xl mx-auto px-6 pt-28 pb-16">
-      <!-- PAGE TITLE -->
+</head>
 
-      <div class="mb-12">
-        <h1
-          class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
-        >
-          My Orders
-        </h1>
+<body class="bg-gray-100 dark:bg-slate-950 text-gray-800 dark:text-gray-200">
 
-        <p class="text-gray-500 mt-2">Track and manage your purchases</p>
-      </div>
+<div th:replace="~{navbar :: navbar}"></div>
 
-      <!-- EMPTY ORDERS -->
+<div class="max-w-7xl mx-auto px-6 pt-28 pb-16">
 
-      <div
-        th:if="${#lists.isEmpty(orders)}"
-        class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-10 text-center"
-      >
-        <p class="text-lg text-gray-500">You haven't placed any orders yet.</p>
+<!-- TITLE -->
+<div class="mb-12">
+<h1 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
+My Orders
+</h1>
+<p class="text-gray-500 mt-2">Track and manage your purchases</p>
+</div>
 
-        <a
-          th:href="@{/user/products}"
-          class="mt-6 inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700"
-        >
-          Start Shopping
-        </a>
-      </div>
+<!-- EMPTY -->
+<div th:if="${#lists.isEmpty(orders)}"
+class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-10 text-center">
 
-      <!-- ORDERS LIST -->
+<p class="text-lg text-gray-500">You haven't placed any orders yet.</p>
 
-      <div class="space-y-10">
-        <div
-          th:each="order : ${orders}"
-          class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden"
-        >
-          <!-- ORDER HEADER -->
+<a th:href="@{/user/products}"
+class="mt-6 inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700">
+Start Shopping
+</a>
 
-          <div
-            class="p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-6 border-b border-gray-200 dark:border-slate-800"
-          >
-            <div class="flex flex-wrap gap-8">
-              <div>
-                <p class="text-sm text-gray-500">Order ID</p>
-                <p class="font-semibold text-lg" th:text="${order.id}"></p>
-              </div>
+</div>
 
-              <div>
-                <p class="text-sm text-gray-500">Placed On</p>
-                <p
-                  th:text="${#temporals.format(order.createdAt,'dd MMM yyyy, hh:mm a')}"
-                ></p>
-              </div>
+<!-- ORDERS -->
+<div class="space-y-10">
 
-              <div>
-                <p class="text-sm text-gray-500">Total</p>
-                <p class="text-lg font-semibold text-indigo-600">
-                  ₹ <span th:text="${order.totalPrice}"></span>
-                </p>
-              </div>
-            </div>
+<div th:each="order : ${orders}"
+class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden">
 
-            <!-- STATUS BADGE -->
+<!-- HEADER -->
+<div class="p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-6 border-b">
 
-            <span
-              class="px-4 py-2 text-sm rounded-full font-semibold"
-              th:classappend="${order.status.name() == 'CREATED'} ? ' bg-yellow-100 text-yellow-700' :
-                 (${order.status.name() == 'SHIPPED'} ? ' bg-blue-100 text-blue-700' :
-                 (${order.status.name() == 'DELIVERED'} ? ' bg-green-100 text-green-700' :
-                 ' bg-gray-100 text-gray-700'))"
-              th:text="${#strings.capitalize(order.status.name().toLowerCase())}"
-            >
-            </span>
-          </div>
+<div class="flex flex-wrap gap-8">
 
-          <!-- ORDER PROGRESS BAR -->
+<div>
+<p class="text-sm text-gray-500">Order ID</p>
+<p class="font-semibold text-lg" th:text="${order.id}"></p>
+</div>
 
-          <div class="px-6 pt-6">
-            <div class="flex items-center justify-between text-sm">
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-green-500"></div>
-                <p class="mt-2">Ordered</p>
-              </div>
+<div>
+<p class="text-sm text-gray-500">Placed On</p>
+<p th:text="${#temporals.format(order.createdAt,'dd MMM yyyy, hh:mm a')}"></p>
+</div>
 
-              <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
+<div>
+<p class="text-sm text-gray-500">Total</p>
+<p class="text-lg font-semibold text-indigo-600">
+₹ <span th:text="${order.totalPrice}"></span>
+</p>
+</div>
 
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-gray-300"></div>
-                <p class="mt-2">Packed</p>
-              </div>
+</div>
 
-              <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
+<!-- STATUS + ACTION -->
+<div class="flex items-center gap-4">
 
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-gray-300"></div>
-                <p class="mt-2">Shipped</p>
-              </div>
+<!-- STATUS BADGE -->
+<span
+class="px-4 py-2 text-sm rounded-full font-semibold"
+th:classappend="
+${order.status.name() == 'CREATED'} ? ' bg-yellow-100 text-yellow-700' :
+(${order.status.name() == 'SHIPPED'} ? ' bg-blue-100 text-blue-700' :
+(${order.status.name() == 'DELIVERED'} ? ' bg-green-100 text-green-700' :
+(${order.status.name() == 'CANCELLED'} ? ' bg-red-100 text-red-700' :
+' bg-gray-100 text-gray-700')))"
+th:text="${#strings.capitalize(order.status.name().toLowerCase())}">
+</span>
 
-              <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
+<!-- CANCEL -->
+<button
+th:if="${order.status.name() == 'CREATED'}"
+th:onclick="'openCancelModal(' + ${order.id} + ')'"
+class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600">
+Cancel
+</button>
 
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-gray-300"></div>
-                <p class="mt-2">Delivered</p>
-              </div>
-            </div>
-          </div>
+<span th:if="${order.status.name() != 'CREATED'}"
+class="text-sm text-gray-400">
+Not cancellable
+</span>
 
-          <!-- PRODUCTS -->
+</div>
 
-          <div class="divide-y divide-gray-200 dark:divide-slate-800 mt-6">
-            <div
-              th:each="item : ${order.items}"
-              class="p-6 flex items-center gap-6 hover:bg-gray-50 dark:hover:bg-slate-800/40 transition"
-            >
-              <img
-                th:src="@{'/images/products/' + ${item.product.image}}"
-                class="w-20 h-20 object-cover rounded-lg border"
-              />
+</div>
 
-              <div class="flex-1">
-                <p
-                  class="font-semibold text-lg"
-                  th:text="${item.product.name}"
-                ></p>
+<!-- 🔥 DYNAMIC PROGRESS -->
+<div class="px-6 pt-6">
 
-                <p class="text-sm text-gray-500">
-                  Brand :
-                  <span th:text="${item.product.brand}"></span>
-                </p>
+<div th:if="${order.status.name() != 'CANCELLED'}"
+class="flex items-center justify-between text-sm">
 
-                <p class="text-sm text-gray-500">
-                  Qty :
-                  <span th:text="${item.quantity}"></span>
-                </p>
-              </div>
+<!-- ORDERED -->
+<div class="flex flex-col items-center">
+<div class="w-4 h-4 rounded-full bg-green-500"></div>
+<p class="mt-2">Ordered</p>
+</div>
 
-              <div class="text-right">
-                <p class="text-sm text-gray-500">Subtotal</p>
+<div class="flex-1 h-1 bg-green-500 mx-2"></div>
 
-                <p class="text-lg font-semibold text-indigo-600">
-                  ₹ <span th:text="${item.price * item.quantity}"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
+<!-- PACKED -->
+<div class="flex flex-col items-center">
+<div class="w-4 h-4 rounded-full"
+th:classappend="${order.status.name() == 'CREATED'} ? ' bg-gray-300' : ' bg-green-500'">
+</div>
+<p class="mt-2">Packed</p>
+</div>
+
+<div class="flex-1 h-1 mx-2"
+th:classappend="${order.status.name() == 'CREATED'} ? ' bg-gray-200' : ' bg-green-500'">
+</div>
+
+<!-- SHIPPED -->
+<div class="flex flex-col items-center">
+<div class="w-4 h-4 rounded-full"
+th:classappend="${order.status.name() == 'SHIPPED' || order.status.name() == 'DELIVERED'} ? ' bg-green-500' : ' bg-gray-300'">
+</div>
+<p class="mt-2">Shipped</p>
+</div>
+
+<div class="flex-1 h-1 mx-2"
+th:classappend="${order.status.name() == 'DELIVERED'} ? ' bg-green-500' : ' bg-gray-200'">
+</div>
+
+<!-- DELIVERED -->
+<div class="flex flex-col items-center">
+<div class="w-4 h-4 rounded-full"
+th:classappend="${order.status.name() == 'DELIVERED'} ? ' bg-green-500' : ' bg-gray-300'">
+</div>
+<p class="mt-2">Delivered</p>
+</div>
+
+</div>
+
+<!-- CANCELLED STATE -->
+<div th:if="${order.status.name() == 'CANCELLED'}"
+class="text-center text-red-600 font-semibold py-4">
+Order Cancelled ❌
+</div>
+
+</div>
+
+<!-- PRODUCTS -->
+<div class="divide-y mt-6">
+
+<div th:each="item : ${order.items}"
+class="p-6 flex items-center gap-6">
+
+<img th:src="@{'/images/products/' + ${item.product.image}}"
+class="w-20 h-20 object-cover rounded-lg border"/>
+
+<div class="flex-1">
+<p class="font-semibold text-lg" th:text="${item.product.name}"></p>
+
+<p class="text-sm text-gray-500">
+Brand : <span th:text="${item.product.brand}"></span>
+</p>
+
+<p class="text-sm text-gray-500">
+Qty : <span th:text="${item.quantity}"></span>
+</p>
+</div>
+
+<div class="text-right">
+<p class="text-sm text-gray-500">Subtotal</p>
+<p class="text-lg font-semibold text-indigo-600">
+₹ <span th:text="${item.price * item.quantity}"></span>
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div id="cancelModal"
+class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+<div class="bg-white rounded-2xl p-8 shadow-xl w-full max-w-md text-center">
+
+<h2 class="text-xl font-bold mb-4 text-red-600">Cancel Order</h2>
+
+<p class="text-gray-500 mb-6">
+Are you sure you want to cancel this order?
+</p>
+
+<div class="flex justify-center gap-4">
+
+<button onclick="closeModal()" class="px-5 py-2 bg-gray-200 rounded-lg">
+No
+</button>
+
+<form id="cancelForm" method="post">
+
+<input type="hidden"
+       th:name="${_csrf.parameterName}"
+       th:value="${_csrf.token}" />
+
+<button class="px-5 py-2 bg-red-500 text-white rounded-lg">
+Yes, Cancel
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+function openCancelModal(orderId) {
+    document.getElementById("cancelForm").action = `/user/orders/${orderId}/cancel`;
+    document.getElementById("cancelModal").classList.remove("hidden");
+    document.getElementById("cancelModal").classList.add("flex");
+}
+
+function closeModal() {
+    document.getElementById("cancelModal").classList.add("hidden");
+}
+</script>
+
+</body>
 </html>
