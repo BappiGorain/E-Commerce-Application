@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import java.util.List;
 
 import com.ecommerce.dto.OrderSummaryDTO;
+import com.ecommerce.helper.OrderStatus;
 import com.ecommerce.model.Order;
 
 public interface  OrderService
@@ -11,4 +12,6 @@ public interface  OrderService
     Order placeOrder(Long userId, Long addressId);
     List<Order> getUserOrders(Long userId);
     void cancelOrder(Long orderId,Long userId);
+    List<Order> getAllOrders();
+    void updateOrderStatus(Long orderId, OrderStatus status);
 }

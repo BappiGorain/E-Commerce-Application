@@ -148,4 +148,20 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.CANCELLED);
         orderRepo.save(order);
     }
+
+    @Override
+    public List<Order> getAllOrders() 
+    {
+        return orderRepo.findAll();
+    }
+
+    @Override
+    public void updateOrderStatus(Long orderId, OrderStatus status) 
+    {
+        Order order = orderRepo.findById(orderId)
+            .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        order.setStatus(status);
+        orderRepo.save(order);
+    }
 }
